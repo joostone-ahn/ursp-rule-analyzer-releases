@@ -43,8 +43,8 @@ Download the latest exe from [Releases](https://github.com/joostone-ahn/ursp-rul
 ## 📖 How to Use
 
 See the User Guide for detailed instructions:
-- [English](docs/manual/user_guide_en_v1.0.0.md)
-- [한국어](docs/manual/user_guide_kr_v1.0.0.md)
+- [English](manual/user_guide_en_v1.0.0.md)
+- [한국어](manual/user_guide_kr_v1.0.0.md)
 
 ---
 
