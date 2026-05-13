@@ -23,7 +23,7 @@ This tool bridges that gap by:
 - **Decoder** — Paste hex from network traces, SIM dumps, or protocol captures to decode instantly
 - **Multiple Views** — Tree, JSON, Bytemap Table, and raw Hex output
 - **Excel Export** — Export decoded results for documentation or reporting
-- **Round-trip Verified** — All 57 component types tested against Wireshark (tshark 4.6.5)
+- **Round-trip Verified** — All 36 component types (52 cases) tested against Wireshark (tshark 4.6.5)
 - **Offline Ready** — Runs as a standalone Windows EXE with no external dependencies
 
 ---
@@ -50,15 +50,15 @@ See the User Guide for detailed instructions:
 
 ## ✅ Protocol Verification
 
-All 57 URSP component type combinations verified through complete round-trip test:
+All 36 URSP component types verified through 52 structural test cases:
 
 **Encoder → Decoder → PCAP Export → Wireshark (tshark 4.6.5)**
 
-| Category | Total | ✅ Pass | ℹ️ WS Limitation | ❌ Fail |
-|----------|-------|---------|-------------------|---------|
-| TD (Traffic Descriptor) | 34 | 33 | 1 | 0 |
-| RSD (Route Selection Descriptor) | 23 | 14 | 9 | 0 |
-| **Total** | **57** | **47 (82%)** | **10 (18%)** | **0** |
+| Category | Types (Cases) | ✅ Pass | ℹ️ WS Limitation | ❌ Fail |
+|----------|---------------|---------|-------------------|---------|
+| TD (Traffic Descriptor) | 23 (35) | 22 | 1 | 0 |
+| RSD (Route Selection Descriptor) | 13 (17) | 7 | 6 | 0 |
+| **Total** | **36 (52)** | **29 (81%)** | **7 (19%)** | **0** |
 
 - [Verification Report & PCAP Files](pcap/)
 
