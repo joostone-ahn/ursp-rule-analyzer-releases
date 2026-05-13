@@ -43,8 +43,8 @@ Download the latest exe from [Releases](https://github.com/joostone-ahn/ursp-rul
 ## 📖 How to Use
 
 See the User Guide for detailed instructions:
-- [English](manual/user_guide_en_v1.0.0.md)
-- [한국어](manual/user_guide_kr_v1.0.0.md)
+- [English](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/manual/user_guide_en_v1.0.0.md)
+- [한국어](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/manual/user_guide_kr_v1.0.0.md)
 
 ---
 
@@ -60,7 +60,7 @@ All 36 URSP component types verified through 52 structural test cases:
 | RSD (Route Selection Descriptor) | 13 (17) | 7 | 6 | 0 |
 | **Total** | **36 (52)** | **29 (81%)** | **7 (19%)** | **0** |
 
-- [Verification Report & PCAP Files](pcap/)
+- [Verification Report & PCAP Files](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/tree/main/pcap)
 
 ---
 
