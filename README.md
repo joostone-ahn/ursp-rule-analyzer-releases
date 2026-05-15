@@ -28,12 +28,6 @@ This tool bridges that gap by:
 
 ---
 
-## 🌐 Online Demo
-
-**[Try Online Demo](https://huggingface.co/spaces/Joostone/ursp-rule-analyzer)**
-
----
-
 ## 💻 Download
 
 Download the latest exe from [Releases](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/releases).
