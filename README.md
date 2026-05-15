@@ -28,6 +28,14 @@ This tool bridges that gap by:
 
 ---
 
+## 🌐 Online Demo
+
+**[Try Online Demo](https://ursp-rule-analyzer.onrender.com/)**
+
+> ⚠️ **Note**: Free tier instance sleeps after 15 minutes of inactivity. First access may take 30–60 seconds for cold start.
+
+---
+
 ## 💻 Download
 
 Download the latest exe from [Releases](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/releases).
