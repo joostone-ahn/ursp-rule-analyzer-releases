@@ -32,7 +32,7 @@ This tool bridges that gap by:
 
 **[Try Online Demo](https://ursp-rule-analyzer.onrender.com/)**
 
-> ⚠️ **Note**: Free tier instance sleeps after 15 minutes of inactivity. First access may take 30–60 seconds for cold start.
+> ⚠️ **Note**: Instance may sleep after inactivity. First access can take 30–60s to wake up.
 
 ---
 
