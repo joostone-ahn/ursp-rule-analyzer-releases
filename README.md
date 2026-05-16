@@ -23,8 +23,8 @@ This tool enables that workflow:
 
 - **Encoder** — Build URSP rules via GUI and generate hex for SIM provisioning or NAS messages
 - **Decoder** — Paste hex from network traces, SIM dumps, or protocol captures to decode instantly
+- **PCAP Export** — Download encoded results as .pcap for Wireshark analysis
 - **Multiple Views** — Tree, JSON, Bytemap Table, and raw Hex output
-- **Excel Export** — Export decoded results for documentation or reporting
 - **Round-trip Verified** — All 36 component types (52 cases) tested against Wireshark (tshark 4.6.5)
 - **Offline Ready** — Runs as a standalone Windows EXE with no external dependencies
 
