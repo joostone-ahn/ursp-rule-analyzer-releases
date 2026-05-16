@@ -80,6 +80,8 @@ All 52 test cases pass encoder/decoder round-trip with zero failures.
 
 ## Detailed Results
 
+> 📁 All PCAP files: [pcap/log/](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/tree/main/pcap/log)
+
 ### TD Detailed (all 35 cases)
 
 | Case | Type ID | Description | PCAP File | Result |

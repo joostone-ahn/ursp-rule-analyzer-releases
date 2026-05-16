@@ -8,12 +8,14 @@ A powerful web-based tool for analyzing URSP (UE Route Selection Policy) rules u
 
 ## 💡 Why This Tool?
 
-In protocol engineering, one of the most persistent challenges is dealing with raw hex data found in logs or SIM files that standard tools can't parse. Wireshark decodes NAS-level framing but does not fully interpret URSP rule internals. Manual byte counting across nested TLV structures is error-prone and time-consuming.
+E2E testing of 5G network slicing requires PCF, AMF, SMF, and gNB to be ready simultaneously. In practice, infrastructure readiness varies across entities, making immediate testing difficult.
 
-This tool bridges that gap by:
-- Translating **hex-encoded URSP rules** into human-readable structures — and vice versa
-- Supporting all 56 component types defined in 3GPP TS 24.526
-- Providing multiple output formats (SIM EF_URSP, DL NAS Transport, Tree, JSON, Bytemap)
+With a **Rel.16+ SIM card**, you can provision URSP rules directly onto the device and validate slice routing **without waiting for core network readiness**. The UE applies rules from EF_URSP locally.
+
+This tool enables that workflow:
+- **Encode** — Build URSP rules visually → generate SIM + NAS hex → write to SIM for immediate device testing
+- **Decode** — Paste hex from SIM dumps or NAS traces → get byte-level protocol breakdown (covers URSP rule details that Wireshark doesn't fully decode)
+- **Cross-validate** — Compare your PCF/5GC implementation output against this spec-based reference
 
 ---
 
@@ -45,8 +47,8 @@ Download the latest exe from [Releases](https://github.com/joostone-ahn/ursp-rul
 ## 📖 How to Use
 
 See the User Guide for detailed instructions:
-- [English](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/manual/user_guide_en_v1.0.0.md)
-- [한국어](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/manual/user_guide_kr_v1.0.0.md)
+- [English](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/manual/user_guide_en_v1.0.1.md)
+- [한국어](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/manual/user_guide_kr_v1.0.1.md)
 
 ---
 
@@ -62,7 +64,9 @@ All 36 URSP component types verified through 52 structural test cases:
 | RSD (Route Selection Descriptor) | 13 (17) | 7 | 6 | 0 |
 | **Total** | **36 (52)** | **29 (81%)** | **7 (19%)** | **0** |
 
-- [Verification Report & PCAP Files](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/tree/main/pcap)
+> "WS Limitation" = Wireshark lacks decoding support for these types — this tool covers them.
+
+- [Verification Report](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/pcap/verification_report.md)
 
 ---
 

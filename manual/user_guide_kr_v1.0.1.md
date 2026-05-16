@@ -94,7 +94,7 @@ IP 주소, 프로토콜, 포트를 조합하여 트래픽을 매칭합니다.
 - **Protocol**: None / TCP / UDP / ICMP / ICMPv6 / ESP
 - **Port type**: Single remote port / Remote port range
   - Single: 포트 번호 하나 (예: 8080)
-  - Range: Remote port low + Remote port high (예: 5000~6000)
+  - Range: Remote port low + Remote port high (예: 5000–6000)
 - 최소 1개 필드 입력 필수
 
 ### 4.5 Type of service/traffic class (ToS/TC)
@@ -102,7 +102,7 @@ IP 주소, 프로토콜, 포트를 조합하여 트래픽을 매칭합니다.
 DSCP 값과 마스크를 설정합니다.
 
 **Value (DSCP):**
-- 드롭다운에서 표준 DSCP 선택 (CS0~CS7, AF11~AF43, EF 등)
+- 드롭다운에서 표준 DSCP 선택 (CS0–CS7, AF11–AF43, EF 등)
 - `Custom` 선택 시 텍스트 입력으로 전환 (2 hex digits, 예: A4)
 - `☰` 버튼으로 드롭다운 복귀
 - 알려진 값 입력 시 자동으로 드롭다운 전환
@@ -135,7 +135,7 @@ DSCP 값과 마스크를 설정합니다.
 
 | 타입 | 설명 | 입력 |
 |------|------|------|
-| Single remote port | 단일 포트 | 숫자 (0~65535) |
+| Single remote port | 단일 포트 | 숫자 (0–65535) |
 | Protocol identifier/next header | 프로토콜 | 드롭다운 |
 | Security parameter index | IPSec SPI | 4바이트 hex (예: 0x12345678) |
 | Flow label | IPv6 Flow label | 3바이트 hex (예: 0x12345) |
@@ -168,7 +168,7 @@ DSCP 값과 마스크를 설정합니다.
 
 네트워크 슬라이스 식별자를 설정합니다.
 - **SST**: 드롭다운 (01=eMBB, 02=URLLC, 03=MIoT, 04=V2X 등)
-- **SD** (선택): 0~FFFFFF (3바이트 hex)
+- **SD** (선택): 0–FFFFFF (3바이트 hex)
   - 입력값은 hex로 인식됩니다. 예: `10` 입력 시 0x10 (decimal 16), `000064` 입력 시 0x000064 (decimal 100)
 
 ### 5.2 DNN

@@ -94,7 +94,7 @@ Match traffic by combining IP address, protocol, and port.
 - **Protocol**: None / TCP / UDP / ICMP / ICMPv6 / ESP
 - **Port type**: Single remote port / Remote port range
   - Single: One port number (e.g., 8080)
-  - Range: Remote port low + Remote port high (e.g., 5000~6000)
+  - Range: Remote port low + Remote port high (e.g., 5000–6000)
 - At least 1 field must be filled
 
 ### 4.5 Type of service/traffic class (ToS/TC)
@@ -102,7 +102,7 @@ Match traffic by combining IP address, protocol, and port.
 Set DSCP value and mask.
 
 **Value (DSCP):**
-- Select a standard DSCP from the dropdown (CS0~CS7, AF11~AF43, EF, etc.)
+- Select a standard DSCP from the dropdown (CS0–CS7, AF11–AF43, EF, etc.)
 - Select `Custom` to switch to text input (2 hex digits, e.g., A4)
 - Click `☰` button to return to dropdown
 - Entering a known value automatically switches back to dropdown
@@ -135,7 +135,7 @@ Set DSCP value and mask.
 
 | Type | Description | Input |
 |------|-------------|-------|
-| Single remote port | Single port | Number (0~65535) |
+| Single remote port | Single port | Number (0–65535) |
 | Protocol identifier/next header | Protocol | Dropdown |
 | Security parameter index | IPSec SPI | 4-byte hex (e.g., 0x12345678) |
 | Flow label | IPv6 Flow label | 3-byte hex (e.g., 0x12345) |
@@ -168,7 +168,7 @@ Use `+ RSD` to add an RSD, `+ Component` to add a component, `✕` to delete
 
 Set the network slice identifier.
 - **SST**: Dropdown (01=eMBB, 02=URLLC, 03=MIoT, 04=V2X, etc.)
-- **SD** (optional): 0~FFFFFF (3-byte hex)
+- **SD** (optional): 0–FFFFFF (3-byte hex)
   - Input is interpreted as hex. Example: entering `10` means 0x10 (decimal 16), entering `000064` means 0x000064 (decimal 100)
 
 ### 5.2 DNN
