@@ -16,7 +16,7 @@
 7. [Decoder Tab](#7-decoder-tab)
 8. [Result Tab](#8-result-tab)
 9. [Guide Modal](#9-guide-modal)
-10. [FAQ](#10-faq)
+10. [Change History](#change-history)
 
 ---
 
@@ -363,31 +363,6 @@ Displayed when clicking the `📖 Guide` button in the header.
 - RSD validation rules (No duplicates, Standalone use, Exclusive pairs, PV rules)
 
 Close: `✕` button, background click, or `Esc` key
-
----
-
-## 10. FAQ
-
-**Q: An error occurs during encoding.**  
-A: Check the error code (e.g., E-TD02) and location (e.g., Rule1.TD1). The corresponding component will be highlighted in red.
-
-**Q: Can I delete the Match-all rule?**  
-A: No. It is mandatory per 3GPP specifications and is automatically managed by the program.
-
-**Q: How do I use the PCAP file?**  
-A: Download it using the `📦 PCAP` button on the DL NAS card, then open it in Wireshark — it will be automatically decoded as NAS-5GS protocol.
-
-**Q: The program does not start.**  
-A: Check whether port 8081 is already in use by another program.
-
-**Q: Can I paste Table data copied with the Copy button into Excel?**  
-A: Yes. Copying from the Table view uses TSV (tab-separated) format, which can be pasted directly into Excel.
-
-**Q: What value should I enter for iOS custom App Category?**  
-A: Enter a 4-digit number starting with 9 (e.g., 9500). If you enter a known code (6014, 9000, 9001), it will automatically switch to the dropdown.
-
-**Q: How do I enter a custom ToS/TC value?**  
-A: Enter exactly 2 hex digits (e.g., A4). If you enter a known DSCP value, it will automatically switch to the dropdown.
 
 ---
 
