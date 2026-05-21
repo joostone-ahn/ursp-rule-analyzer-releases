@@ -5,6 +5,21 @@
 
 ---
 
+## Table of Contents
+
+1. [How to Run](#1-how-to-run)
+2. [Screen Layout](#2-screen-layout)
+3. [Encoder Tab](#3-encoder-tab)
+4. [Traffic Descriptor (TD) Details](#4-traffic-descriptor-td-details)
+5. [Route Selection Descriptor (RSD) Details](#5-route-selection-descriptor-rsd-details)
+6. [Encoding Execution and Error Handling](#6-encoding-execution-and-error-handling)
+7. [Decoder Tab](#7-decoder-tab)
+8. [Result Tab](#8-result-tab)
+9. [Guide Modal](#9-guide-modal)
+10. [FAQ](#10-faq)
+
+---
+
 ## 1. How to Run
 
 1. Double-click the `URSP-Rule-Analyzer-v1.0.2.exe` file.
