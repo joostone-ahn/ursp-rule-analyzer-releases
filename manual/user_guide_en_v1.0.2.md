@@ -1,13 +1,13 @@
-# URSP Rule Analyzer User Guide
+# URSP Rule Analyzer User Guide v1.0.2
 
-**Version:** v1.0.0  
-**Last Updated:** 2026-05-13
+**Version:** v1.0.2  
+**Last Updated:** 2026-05-22
 
 ---
 
 ## 1. How to Run
 
-1. Double-click the `URSP-Rule-Analyzer-v1.0.0.exe` file.
+1. Double-click the `URSP-Rule-Analyzer-v1.0.2.exe` file.
 2. A console window will display the message `Access the application at: http://127.0.0.1:8081`.
 3. Open the address in your web browser.
 4. To quit: close the console window or press `Ctrl+C`.
@@ -373,6 +373,16 @@ A: Enter a 4-digit number starting with 9 (e.g., 9500). If you enter a known cod
 
 **Q: How do I enter a custom ToS/TC value?**  
 A: Enter exactly 2 hex digits (e.g., A4). If you enter a known DSCP value, it will automatically switch to the dropdown.
+
+---
+
+## Change History
+
+| Version | Date | Description |
+|---------|------|-------------|
+| v1.0.0 | 2026-05-17 | Initial release |
+| v1.0.1 | 2026-05-17 | Encoder: improved empty field validation for IPv4/IPv6 standalone TD with proper error codes (E-TD03–E-TD10), fixed mobile action bar incorrectly showing on desktop |
+| v1.0.2 | 2026-05-22 | Encoder: fixed iOS Traffic Category data model retaining stale value when App Category is changed |
 
 ---
 
