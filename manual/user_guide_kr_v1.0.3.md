@@ -1,6 +1,6 @@
-# URSP Rule Analyzer 사용자 가이드 v1.0.2
+# URSP Rule Analyzer 사용자 가이드 v1.0.3
 
-**버전:** v1.0.2  
+**버전:** v1.0.3  
 **최종 수정일:** 2026-05-22
 
 ---
@@ -22,12 +22,21 @@
 
 ## 1. 실행 방법
 
-1. `URSP-Rule-Analyzer-v1.0.2.exe` 파일을 더블클릭합니다.
+1. `URSP-Rule-Analyzer-v1.0.3.exe` 파일을 더블클릭합니다.
 2. 콘솔 창에 `Access the application at: http://127.0.0.1:8081` 메시지가 표시됩니다.
 3. 웹 브라우저에서 해당 주소에 접속합니다.
 4. 종료: 콘솔 창을 닫거나 `Ctrl+C`
 
 > 방화벽 경고 시 "허용"을 선택하세요. 로컬에서만 동작합니다.
+
+### Lite 버전
+
+`URSP-Rule-Analyzer-Lite-v1.0.3.exe`는 실제 단말에서 지원되는 핵심 기능만 포함한 경량 버전입니다.
+
+- **TD 타입**: Match-all, OS Id + OS App Id, DNN, Connection capabilities
+- **RSD 타입**: S-NSSAI, DNN, Location criteria, Time window
+- 헤더에 **Lite** 배지가 표시됩니다
+- Decoder는 Full 버전과 동일하게 모든 타입을 디코딩합니다
 
 ---
 
@@ -372,6 +381,7 @@ PDU 세션 쌍 식별자 (드롭다운)
 | v1.0.0 | 2026-05-17 | 최초 배포 |
 | v1.0.1 | 2026-05-17 | Encoder: IPv4/IPv6 standalone TD 빈 필드 검증 에러코드 개선 (E-TD03–E-TD10), 모바일 액션바 데스크톱 노출 버그 수정 |
 | v1.0.2 | 2026-05-22 | Encoder: iOS App Category 변경 시 Traffic Category 데이터 모델이 이전 값을 유지하는 버그 수정 |
+| v1.0.3 | 2026-05-22 | Lite 버전 추가 (단말 지원 TD/RSD 타입만 제공), + TD 자동 타입 선택 개선 (Android → iOS → 기타 순) |
 
 ---
 

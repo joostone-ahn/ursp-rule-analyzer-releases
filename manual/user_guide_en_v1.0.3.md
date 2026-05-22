@@ -1,6 +1,6 @@
-# URSP Rule Analyzer User Guide v1.0.2
+# URSP Rule Analyzer User Guide v1.0.3
 
-**Version:** v1.0.2  
+**Version:** v1.0.3  
 **Last Updated:** 2026-05-22
 
 ---
@@ -22,12 +22,21 @@
 
 ## 1. How to Run
 
-1. Double-click the `URSP-Rule-Analyzer-v1.0.2.exe` file.
+1. Double-click the `URSP-Rule-Analyzer-v1.0.3.exe` file.
 2. A console window will display the message `Access the application at: http://127.0.0.1:8081`.
 3. Open the address in your web browser.
 4. To quit: close the console window or press `Ctrl+C`.
 
 > If a firewall warning appears, select "Allow". The application runs locally only.
+
+### Lite Edition
+
+`URSP-Rule-Analyzer-Lite-v1.0.3.exe` is a lightweight edition that includes only device-supported core features.
+
+- **TD types**: Match-all, OS Id + OS App Id, DNN, Connection capabilities
+- **RSD types**: S-NSSAI, DNN, Location criteria, Time window
+- A **Lite** badge is displayed in the header
+- Decoder works identically to the Full edition, decoding all types
 
 ---
 
@@ -373,6 +382,7 @@ Close: `✕` button, background click, or `Esc` key
 | v1.0.0 | 2026-05-17 | Initial release |
 | v1.0.1 | 2026-05-17 | Encoder: improved empty field validation for IPv4/IPv6 standalone TD with proper error codes (E-TD03–E-TD10), fixed mobile action bar incorrectly showing on desktop |
 | v1.0.2 | 2026-05-22 | Encoder: fixed iOS Traffic Category data model retaining stale value when App Category is changed |
+| v1.0.3 | 2026-05-22 | Added Lite edition (device-compatible TD/RSD types only), improved + TD auto-type selection (Android → iOS → others) |
 
 ---
 
