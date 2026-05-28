@@ -352,8 +352,9 @@ PDU 세션 쌍 식별자 (드롭다운)
 
 ### 8.2 DL NAS TRANSPORT 카드 (파란색 헤더)
 
-- **PCAP 뷰** (기본): tshark + Lua 플러그인으로 파싱한 Wireshark 스타일 프로토콜 트리
-  - 시스템에 tshark(Wireshark)가 설치되어 있어야 동작합니다
+- **PCAP 뷰** (기본, Wireshark/tshark 설치 시): tshark + Lua 플러그인으로 파싱한 Wireshark 스타일 프로토콜 트리
+  - **요구 사항**: 시스템에 Wireshark(tshark 포함)가 설치되어 있어야 동작합니다
+  - Wireshark 미설치 시 PCAP 토글이 표시되지 않으며 Table이 기본 뷰가 됩니다
   - Lua 플러그인이 자동 적용되어 Location criteria, Time window 등이 해석됩니다
 - **Table 뷰**: Bytemap 테이블 (Idx, Hex, Description)
   - Length 필드는 description 뒤에 decimal 값이 자동 계산되어 표시됩니다

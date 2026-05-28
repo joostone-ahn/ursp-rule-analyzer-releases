@@ -24,7 +24,7 @@ This tool enables that workflow:
 - **Encoder** — Build URSP rules via GUI and generate hex for SIM provisioning or NAS messages
 - **Decoder** — Paste hex from network traces, SIM dumps, or protocol captures to decode instantly
 - **PCAP Export** — Download encoded results as .pcap for Wireshark analysis
-- **Multiple Views** — Tree, JSON, PCAP (tshark + Lua plugin), Bytemap Table, and raw Hex output
+- **Multiple Views** — Tree, JSON, PCAP (tshark + Lua plugin, requires Wireshark), Bytemap Table, and raw Hex output
 - **Round-trip Verified** — All 36 component types (52 cases) tested against Wireshark (tshark 4.6.5)
 - **Offline Ready** — Runs as a standalone Windows EXE with no external dependencies
 
@@ -34,7 +34,7 @@ This tool enables that workflow:
 
 **[Try Online Demo](https://ursp-rule-analyzer.onrender.com/)**
 
-> ⚠️ **Note**: Instance may sleep after inactivity. First access can take 30–60s to wake up.
+> ⚠️ **Note**: Instance may sleep after inactivity. First access can take 30–60s to wake up. PCAP view is not available in the online demo (requires local Wireshark installation).
 
 ---
 

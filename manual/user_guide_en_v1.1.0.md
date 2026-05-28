@@ -352,8 +352,9 @@ Encoding/decoding results are displayed in 3 cards.
 
 ### 8.2 DL NAS TRANSPORT Card (blue header)
 
-- **PCAP view** (default): Wireshark-style protocol tree parsed by tshark + Lua plugin
-  - Requires tshark (Wireshark) installed on the system
+- **PCAP view** (default when Wireshark/tshark is installed): Wireshark-style protocol tree parsed by tshark + Lua plugin
+  - **Requirement**: Wireshark (with TShark component) must be installed on the system
+  - If Wireshark is not installed, the PCAP toggle is hidden and Table becomes the default view
   - Lua plugin is automatically applied to decode Location criteria, Time window, etc.
 - **Table view**: Bytemap table (Idx, Hex, Description)
   - Length fields automatically display the decimal value after the description
