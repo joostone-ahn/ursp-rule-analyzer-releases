@@ -62,10 +62,10 @@ All 36 URSP component types verified through 52 structural test cases (Encoder �
 
 **Install:**
 1. Download `ursp_extended_info.lua` from [Releases](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/releases)
-2. Copy to your Wireshark plugins folder:
-   - Windows: `%APPDATA%\Wireshark\plugins\`
-   - macOS: `~/.local/lib/wireshark/plugins/`
-   - Or: Wireshark → Help → About → Folders → Personal Lua Plugins
+2. Copy to your Wireshark Personal Lua Plugins folder:
+   - Windows: `C:\Users\<username>\AppData\Roaming\Wireshark\plugins\` (create `plugins` folder if it doesn't exist)
+   - macOS: `~/.local/lib/wireshark/plugins/` (create folders if they don't exist)
+   - To find the exact path: Wireshark → Help → About Wireshark → Folders tab → "Personal Lua Plugins"
 3. Restart Wireshark — the plugin loads automatically
 
 > The plugin does NOT replace Wireshark's built-in dissection. It adds supplementary annotations as a collapsible tree at the bottom of the packet, with location references for easy identification:

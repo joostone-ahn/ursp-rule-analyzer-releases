@@ -397,10 +397,10 @@ A companion Lua plugin (`ursp_extended_info.lua`) is included in each release to
 ### 10.1 Installation
 
 1. Download `ursp_extended_info.lua` from the Release page
-2. Copy to your Wireshark plugins folder:
-   - Windows: `%APPDATA%\Wireshark\plugins\`
-   - macOS: `~/.local/lib/wireshark/plugins/`
-   - Or: Wireshark → Help → About → Folders → Personal Lua Plugins
+2. Copy to your Wireshark Personal Lua Plugins folder:
+   - Windows: `C:\Users\<username>\AppData\Roaming\Wireshark\plugins\` (create `plugins` folder if it doesn't exist)
+   - macOS: `~/.local/lib/wireshark/plugins/` (create folders if they don't exist)
+   - To find the exact path: Wireshark → Help → About Wireshark → Folders tab → "Personal Lua Plugins"
 3. Restart Wireshark — the plugin loads automatically
 
 ### 10.2 Features

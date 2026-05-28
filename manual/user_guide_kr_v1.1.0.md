@@ -397,10 +397,10 @@ Release에 포함된 `ursp_extended_info.lua` 파일은 Wireshark의 URSP 해석
 ### 10.1 설치 방법
 
 1. Release 페이지에서 `ursp_extended_info.lua` 다운로드
-2. Wireshark 플러그인 폴더에 복사:
-   - Windows: `%APPDATA%\Wireshark\plugins\`
-   - macOS: `~/.local/lib/wireshark/plugins/`
-   - 또는: Wireshark → Help → About → Folders → Personal Lua Plugins 경로 확인
+2. Wireshark Personal Lua Plugins 폴더에 복사:
+   - Windows: `C:\Users\<사용자명>\AppData\Roaming\Wireshark\plugins\` (`plugins` 폴더가 없으면 직접 생성)
+   - macOS: `~/.local/lib/wireshark/plugins/` (폴더가 없으면 직접 생성)
+   - 정확한 경로 확인: Wireshark → Help → About Wireshark → Folders 탭 → "Personal Lua Plugins"
 3. Wireshark 재시작 — 자동으로 로드됨
 
 ### 10.2 보완 기능
