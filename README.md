@@ -24,7 +24,7 @@ This tool enables that workflow:
 - **Encoder** — Build URSP rules via GUI and generate hex for SIM provisioning or NAS messages
 - **Decoder** — Paste hex from network traces, SIM dumps, or protocol captures to decode instantly
 - **PCAP Export** — Download encoded results as .pcap for Wireshark analysis
-- **Multiple Views** — Tree, JSON, Bytemap Table, and raw Hex output
+- **Multiple Views** — Tree, JSON, PCAP (tshark + Lua plugin), Bytemap Table, and raw Hex output
 - **Round-trip Verified** — All 36 component types (52 cases) tested against Wireshark (tshark 4.6.5)
 - **Offline Ready** — Runs as a standalone Windows EXE with no external dependencies
 
@@ -44,29 +44,49 @@ Download the latest exe from [Releases](https://github.com/joostone-ahn/ursp-rul
 
 ---
 
-## 📖 How to Use
+## 🔌 Wireshark Lua Plugin
 
-See the User Guide for detailed instructions:
-- [English](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/manual/user_guide_en_v1.0.3.md)
-- [한국어](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/manual/user_guide_kr_v1.0.3.md)
+All 36 URSP component types verified through 52 structural test cases (Encoder → Decoder → PCAP Export → Wireshark tshark 4.6.6). Wireshark natively decodes 81% of cases; the remaining 19% are types Wireshark does not yet dissect. To cover these gaps, a companion Lua plugin (`ursp_nas_dissector.lua`) is included in each release.
+
+- [Verification Report](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/pcap/verification_report.md)
+
+**What the plugin adds:**
+| Feature | Wireshark (without plugin) | With plugin |
+|---------|---------------------------|-------------|
+| Location criteria (0x40) | "IE not dissected yet" | Full parsing (TAI list, Cell IDs, PLMN) |
+| Time window (0x80) | "IE not dissected yet" | UTC timestamp display |
+| Connection capabilities (0xA1~0xAB) | "Unknown (0xAx)" | Rel-18 names (IoT, streaming, etc.) |
+| OS Id + OS App Id (0x08) | Raw hex only | Android/iOS category interpretation |
+| OS App Id (0xA0) | Raw hex only | ASCII text display |
+| Destination FQDN (0x91) | Off-by-one bug | Corrected FQDN |
+
+**Install:**
+1. Download `ursp_nas_dissector.lua` from [Releases](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/releases)
+2. Copy to your Wireshark plugins folder:
+   - Windows: `%APPDATA%\Wireshark\plugins\`
+   - macOS: `~/.local/lib/wireshark/plugins/`
+   - Or: Wireshark → Help → About → Folders → Personal Lua Plugins
+3. Restart Wireshark — the plugin loads automatically
+
+> The plugin does NOT replace Wireshark's built-in dissection. It adds supplementary annotations as a collapsible tree at the bottom of the packet, with location references for easy identification:
+> ```
+> ▼ [Extended Info: decoded by ursp_nas_dissector.lua]
+>     ▼ URSP rule 1 → Traffic descriptor
+>         ▼ OS Id + OS App Id
+>             OS: Android
+>             Slice Category: ENTERPRISE
+>     ▼ URSP rule 1 → Route selection descriptor 1
+>         ▶ Location criteria
+>         ▶ Time window
+> ```
 
 ---
 
-## ✅ Protocol Verification
+## 📖 How to Use
 
-All 36 URSP component types verified through 52 structural test cases:
-
-**Encoder → Decoder → PCAP Export → Wireshark (tshark 4.6.5)**
-
-| Category | Types (Cases) | ✅ Pass | ℹ️ WS Limitation | ❌ Fail |
-|----------|---------------|---------|-------------------|---------|
-| TD (Traffic Descriptor) | 23 (35) | 22 | 1 | 0 |
-| RSD (Route Selection Descriptor) | 13 (17) | 7 | 6 | 0 |
-| **Total** | **36 (52)** | **29 (81%)** | **7 (19%)** | **0** |
-
-> "WS Limitation" = Wireshark lacks decoding support for these types — this tool covers them.
-
-- [Verification Report](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/pcap/verification_report.md)
+See the User Guide for detailed instructions:
+- [English](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/manual/user_guide_en_v1.1.0.md)
+- [한국어](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/manual/user_guide_kr_v1.1.0.md)
 
 ---
 

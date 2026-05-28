@@ -1,7 +1,7 @@
-# URSP Rule Analyzer 사용자 가이드 v1.0.3
+# URSP Rule Analyzer 사용자 가이드 v1.1.0
 
-**버전:** v1.0.3  
-**최종 수정일:** 2026-05-22
+**버전:** v1.1.0  
+**최종 수정일:** 2026-05-28
 
 ---
 
@@ -16,13 +16,14 @@
 7. [Decoder 탭](#7-decoder-탭)
 8. [Result 탭](#8-result-탭)
 9. [Guide 모달](#9-guide-모달)
-10. [수정 이력](#수정-이력)
+10. [Wireshark Lua 플러그인](#10-wireshark-lua-플러그인)
+11. [수정 이력](#수정-이력)
 
 ---
 
 ## 1. 실행 방법
 
-1. `URSP-Rule-Analyzer-v1.0.3.exe` 파일을 더블클릭합니다.
+1. `URSP-Rule-Analyzer-v1.1.0.exe` 파일을 더블클릭합니다.
 2. 콘솔 창에 `Access the application at: http://127.0.0.1:8081` 메시지가 표시됩니다.
 3. 웹 브라우저에서 해당 주소에 접속합니다.
 4. 종료: 콘솔 창을 닫거나 `Ctrl+C`
@@ -31,7 +32,7 @@
 
 ### Lite 버전
 
-`URSP-Rule-Analyzer-Lite-v1.0.3.exe`는 실제 단말에서 지원되는 핵심 기능만 포함한 경량 버전입니다.
+`URSP-Rule-Analyzer-Lite-v1.1.0.exe`는 실제 단말에서 지원되는 핵심 기능만 포함한 경량 버전입니다.
 
 - **TD 타입**: Match-all, OS Id + OS App Id, DNN, Connection capabilities
 - **RSD 타입**: S-NSSAI, DNN, Location criteria, Time window
@@ -217,9 +218,22 @@ Session and Service Continuity 모드
 
 ### 5.6 Time window
 
-- Starttime: 시작 날짜/시간 선택
-- Stoptime: 종료 날짜/시간 선택
-- 내부적으로 NTP 64-bit timestamp으로 인코딩됨
+특정 시간대에만 해당 라우팅 정책을 적용하도록 제한합니다.
+
+- **Timezone**: 드롭다운에서 시간대 선택 (기본값: Asia/Seoul KST)
+  - 16개 주요 timezone 제공 (Asia, Europe, America, Oceania, UTC)
+  - 사용자가 입력하는 Starttime/Stoptime은 선택한 timezone 기준입니다
+- **Starttime**: 시작 날짜/시간 선택
+- **Stoptime**: 종료 날짜/시간 선택
+
+**인코딩 동작:**
+- 입력된 로컬 시간을 선택한 timezone의 UTC offset을 적용하여 UTC로 변환합니다
+- 변환된 UTC 시간이 NTP 64-bit timestamp (RFC 5905)으로 인코딩됩니다
+- 예: KST 2026-01-01 00:00 → UTC 2025-12-31 15:00 → epoch 1767193200
+
+**디코딩 표시:**
+- 디코딩 결과는 UTC로 표시됩니다 (바이너리에 timezone 정보가 포함되지 않으므로)
+- 단말(모뎀)은 네트워크에서 수신한 UTC 시간과 비교하여 Time window 범위를 판단합니다
 
 ### 5.7 Location criteria
 
@@ -328,6 +342,7 @@ PDU 세션 쌍 식별자 (드롭다운)
 인코딩/디코딩 결과가 3개의 카드로 표시됩니다.
 - 데스크톱: 3열 그리드 레이아웃
 - 모바일: 좌우 스와이프 (하단 도트 인디케이터)
+- 탭 바 우측에 `💾 Save (*.pcap)` 버튼이 표시됩니다 (Wireshark에서 열 수 있는 .pcap 파일 다운로드, 데스크톱 전용)
 
 ### 8.1 URSP RULE 카드 (보라색 헤더)
 
@@ -335,28 +350,29 @@ PDU 세션 쌍 식별자 (드롭다운)
 - **JSON 뷰**: JSON 형식으로 표시
 - `📋 Copy`: 현재 뷰의 내용을 클립보드에 복사
 
-### 8.2 SIM EF.URSP 카드 (초록색 헤더)
+### 8.2 DL NAS TRANSPORT 카드 (파란색 헤더)
 
-- **Table 뷰** (기본): Bytemap 테이블 (Idx, Hex, Description)
-  - Length 필드는 description 뒤에 decimal 값이 자동 계산되어 표시됩니다 (1-byte: 직접 표시, 2-byte: 합산값 표시)
+- **PCAP 뷰** (기본): tshark + Lua 플러그인으로 파싱한 Wireshark 스타일 프로토콜 트리
+  - 시스템에 tshark(Wireshark)가 설치되어 있어야 동작합니다
+  - Lua 플러그인이 자동 적용되어 Location criteria, Time window 등이 해석됩니다
+- **Table 뷰**: Bytemap 테이블 (Idx, Hex, Description)
+  - Length 필드는 description 뒤에 decimal 값이 자동 계산되어 표시됩니다
 - **Hex 뷰**: 오프셋 포함 hex 덤프
-- `📋 Copy`: Table → TSV (Excel 붙여넣기 가능), Hex → raw hex string
+- `✏️ Edit`: PTI/UPSC 값 직접 수정 모드 (Table 뷰로 자동 전환)
+  - 편집 가능 필드가 노란색으로 강조됨
+  - 2자리 hex 값 수정 후 `💾 Save` 클릭
+  - 수정 시 PCAP 뷰가 자동 갱신됨
+- `📋 Copy`: 현재 뷰의 내용을 클립보드에 복사
+
+### 8.3 SIM EF.URSP 카드 (초록색 헤더)
+
+- **Hex 뷰** (기본): 오프셋 포함 hex 덤프
+- **Table 뷰**: Bytemap 테이블 (Idx, Hex, Description)
+- `📋 Copy`: Hex → raw hex string, Table → TSV (Excel 붙여넣기 가능)
 
 > **활용**: 이 hex 값을 SIM 카드의 EF_URSP 파일에 직접 write하여 네트워크 슬라이싱 테스트에 활용할 수 있습니다. SIM write를 위한 도구:
 > - [SIM AT Command](https://github.com/joostone-ahn/sim-at-command-releases) — AT 명령어 기반 SIM 파일 읽기/쓰기
 > - [SIM OTA Test](https://github.com/joostone-ahn/sim-ota-test-releases) — OTA 방식 SIM 프로비저닝 테스트
-
-### 8.3 DL NAS TRANSPORT 카드 (파란색 헤더)
-
-- **Table 뷰** (기본): Bytemap 테이블 (Idx, Hex, Description)
-  - Length 필드는 description 뒤에 decimal 값이 자동 계산되어 표시됩니다 (1-byte: 직접 표시, 2-byte: 합산값 표시)
-- **Hex 뷰**: 오프셋 포함 hex 덤프
-- `📦 PCAP`: Wireshark에서 열 수 있는 .pcap 파일 다운로드
-- `✏️ Edit`: PTI/UPSC 값 직접 수정 모드
-  - 편집 가능 필드가 노란색으로 강조됨
-  - 2자리 hex 값 수정 후 `💾 Save` 클릭
-  - 수정된 값은 Hex 뷰에도 자동 반영
-- `📋 Copy`: Table → TSV (Excel 호환), Hex → raw hex string
 
 ---
 
@@ -374,6 +390,50 @@ PDU 세션 쌍 식별자 (드롭다운)
 
 ---
 
+## 10. Wireshark Lua 플러그인
+
+Release에 포함된 `ursp_nas_dissector.lua` 파일은 Wireshark의 URSP 해석을 보완하는 Lua 플러그인입니다.
+
+### 10.1 설치 방법
+
+1. Release 페이지에서 `ursp_nas_dissector.lua` 다운로드
+2. Wireshark 플러그인 폴더에 복사:
+   - Windows: `%APPDATA%\Wireshark\plugins\`
+   - macOS: `~/.local/lib/wireshark/plugins/`
+   - 또는: Wireshark → Help → About → Folders → Personal Lua Plugins 경로 확인
+3. Wireshark 재시작 — 자동으로 로드됨
+
+### 10.2 보완 기능
+
+| 항목 | Wireshark (플러그인 없이) | 플러그인 적용 후 |
+|------|--------------------------|-----------------|
+| Location criteria (0x40) | "IE not dissected yet" | TAI list, Cell ID, PLMN 전체 파싱 |
+| Time window (0x80) | "IE not dissected yet" | UTC 시간 표시 |
+| Connection capabilities (0xA1~0xAB) | "Unknown (0xAx)" | Rel-18 이름 표시 |
+| OS Id + OS App Id (0x08) | raw hex | Android/iOS 카테고리 해석 |
+| OS App Id (0xA0) | raw hex | ASCII 텍스트 표시 |
+| Destination FQDN (0x91) | 1바이트 밀림 | 정확한 FQDN 표시 |
+
+### 10.3 참고 사항
+
+- 기존 Wireshark 해석을 **교체하지 않습니다** — 별도 프로토콜 트리로 추가 표시
+- Wireshark가 향후 공식 지원 시 플러그인을 제거하면 됩니다 (충돌 방지)
+- tshark에서도 동일하게 동작: `tshark -X lua_script:ursp_nas_dissector.lua -r <pcap> -V`
+
+> **표시 위치 안내:** Wireshark Lua post-dissector 구조상, 해석 결과는 패킷 트리 최하단에 별도 접기/펼치기 트리로 표시됩니다. 각 항목은 Wireshark 트리의 위치를 참조하여 어떤 URSP 컴포넌트에 해당하는지 쉽게 식별할 수 있습니다:
+> ```
+> ▼ [Extended Info: decoded by ursp_nas_dissector.lua]
+>     ▼ URSP rule 1 → Traffic descriptor
+>         ▼ OS Id + OS App Id
+>             OS: Android
+>             Slice Category: ENTERPRISE
+>     ▼ URSP rule 1 → Route selection descriptor 1
+>         ▶ Location criteria
+>         ▶ Time window
+> ```
+
+---
+
 ## 수정 이력
 
 | 버전 | 날짜 | 내용 |
@@ -382,6 +442,7 @@ PDU 세션 쌍 식별자 (드롭다운)
 | v1.0.1 | 2026-05-17 | Encoder: IPv4/IPv6 standalone TD 빈 필드 검증 에러코드 개선 (E-TD03–E-TD10), 모바일 액션바 데스크톱 노출 버그 수정 |
 | v1.0.2 | 2026-05-22 | Encoder: iOS App Category 변경 시 Traffic Category 데이터 모델이 이전 값을 유지하는 버그 수정 |
 | v1.0.3 | 2026-05-22 | Lite 버전 추가 (단말 지원 TD/RSD 타입만 제공), + TD 자동 타입 선택 개선 (Android → iOS → 기타 순) |
+| v1.1.0 | 2026-05-28 | Wireshark Lua 플러그인 추가 (Location criteria, Time window, Connection capabilities Rel-18, OS Id/App Id, Dest FQDN 보정), Result 탭 UI 개편 (카드 순서 변경, DL NAS에 PCAP 뷰 추가, SIM EF.URSP Hex 기본 뷰, 탭 바에 Save 버튼 이동), Time window UTC+KST 병기, UPSC Edit 버그 수정 |
 
 ---
 

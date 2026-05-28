@@ -1,7 +1,7 @@
-# URSP Rule Analyzer User Guide v1.0.3
+# URSP Rule Analyzer User Guide v1.1.0
 
-**Version:** v1.0.3  
-**Last Updated:** 2026-05-22
+**Version:** v1.1.0  
+**Last Updated:** 2026-05-28
 
 ---
 
@@ -16,13 +16,14 @@
 7. [Decoder Tab](#7-decoder-tab)
 8. [Result Tab](#8-result-tab)
 9. [Guide Modal](#9-guide-modal)
-10. [Change History](#change-history)
+10. [Wireshark Lua Plugin](#10-wireshark-lua-plugin)
+11. [Change History](#change-history)
 
 ---
 
 ## 1. How to Run
 
-1. Double-click the `URSP-Rule-Analyzer-v1.0.3.exe` file.
+1. Double-click the `URSP-Rule-Analyzer-v1.1.0.exe` file.
 2. A console window will display the message `Access the application at: http://127.0.0.1:8081`.
 3. Open the address in your web browser.
 4. To quit: close the console window or press `Ctrl+C`.
@@ -31,7 +32,7 @@
 
 ### Lite Edition
 
-`URSP-Rule-Analyzer-Lite-v1.0.3.exe` is a lightweight edition that includes only device-supported core features.
+`URSP-Rule-Analyzer-Lite-v1.1.0.exe` is a lightweight edition that includes only device-supported core features.
 
 - **TD types**: Match-all, OS Id + OS App Id, DNN, Connection capabilities
 - **RSD types**: S-NSSAI, DNN, Location criteria, Time window
@@ -217,9 +218,22 @@ No value (selection alone is meaningful). Indicates multi-access preference.
 
 ### 5.6 Time window
 
-- Starttime: Select start date/time
-- Stoptime: Select end date/time
-- Internally encoded as NTP 64-bit timestamp
+Restricts the routing policy to apply only during a specific time period.
+
+- **Timezone**: Select timezone from dropdown (default: Asia/Seoul KST)
+  - 16 major timezones provided (Asia, Europe, America, Oceania, UTC)
+  - Starttime/Stoptime are interpreted in the selected timezone
+- **Starttime**: Select start date/time
+- **Stoptime**: Select end date/time
+
+**Encoding behavior:**
+- The input local time is converted to UTC using the selected timezone's offset
+- The UTC time is encoded as NTP 64-bit timestamp (RFC 5905)
+- Example: KST 2026-01-01 00:00 → UTC 2025-12-31 15:00 → epoch 1767193200
+
+**Decoding display:**
+- Decoded results are displayed in UTC (binary does not contain timezone information)
+- The UE modem compares the network-provided UTC time against the Time window range
 
 ### 5.7 Location criteria
 
@@ -328,6 +342,7 @@ Redundancy transmission sequence number (dropdown: v1, v2)
 Encoding/decoding results are displayed in 3 cards.
 - Desktop: 3-column grid layout
 - Mobile: Horizontal swipe (dot indicator at the bottom)
+- The `💾 Save (*.pcap)` button appears in the tab bar (downloads a .pcap file for Wireshark, desktop only)
 
 ### 8.1 URSP RULE Card (purple header)
 
@@ -335,29 +350,29 @@ Encoding/decoding results are displayed in 3 cards.
 - **JSON view**: Displays in JSON format
 - `📋 Copy`: Copies the current view content to clipboard
 
-### 8.2 SIM EF.URSP Card (green header)
+### 8.2 DL NAS TRANSPORT Card (blue header)
 
-- **Table view** (default): Bytemap table (Idx, Hex, Description)
-  - Length fields automatically display the decimal value after the description (1-byte: direct value, 2-byte: combined value)
+- **PCAP view** (default): Wireshark-style protocol tree parsed by tshark + Lua plugin
+  - Requires tshark (Wireshark) installed on the system
+  - Lua plugin is automatically applied to decode Location criteria, Time window, etc.
+- **Table view**: Bytemap table (Idx, Hex, Description)
+  - Length fields automatically display the decimal value after the description
 - **Hex view**: Hex dump with offset
-- `📋 Copy`: Table → TSV (pasteable into Excel), Hex → raw hex string
+- `✏️ Edit`: Direct edit mode for PTI/UPSC values (auto-switches to Table view)
+  - Editable fields are highlighted in yellow
+  - Edit the 2-digit hex value and click `💾 Save`
+  - PCAP view is automatically refreshed after edit
+- `📋 Copy`: Copies the current view content to clipboard
+
+### 8.3 SIM EF.URSP Card (green header)
+
+- **Hex view** (default): Hex dump with offset
+- **Table view**: Bytemap table (Idx, Hex, Description)
+- `📋 Copy`: Hex → raw hex string, Table → TSV (pasteable into Excel)
 
 > **Usage**: This hex value can be directly written to the SIM card's EF_URSP file for network slicing testing. Tools for SIM write:
 > - [SIM AT Command](https://github.com/joostone-ahn/sim-at-command-releases) — AT command-based SIM file read/write
 > - [SIM OTA Test](https://github.com/joostone-ahn/sim-ota-test-releases) — OTA-based SIM provisioning test
-
-### 8.3 DL NAS TRANSPORT Card (blue header)
-
-- **Table view** (default): Bytemap table (Idx, Hex, Description)
-  - Length fields automatically display the decimal value after the description (1-byte: direct value, 2-byte: combined value)
-- **Hex view**: Hex dump with offset
-- **Hex view**: Hex dump with offset
-- `📦 PCAP`: Download a .pcap file that can be opened in Wireshark
-- `✏️ Edit`: Direct edit mode for PTI/UPSC values
-  - Editable fields are highlighted in yellow
-  - Edit the 2-digit hex value and click `💾 Save`
-  - Modified values are automatically reflected in the Hex view
-- `📋 Copy`: Table → TSV (Excel-compatible), Hex → raw hex string
 
 ---
 
@@ -375,6 +390,50 @@ Close: `✕` button, background click, or `Esc` key
 
 ---
 
+## 10. Wireshark Lua Plugin
+
+A companion Lua plugin (`ursp_nas_dissector.lua`) is included in each release to supplement Wireshark's built-in NAS-5GS dissector.
+
+### 10.1 Installation
+
+1. Download `ursp_nas_dissector.lua` from the Release page
+2. Copy to your Wireshark plugins folder:
+   - Windows: `%APPDATA%\Wireshark\plugins\`
+   - macOS: `~/.local/lib/wireshark/plugins/`
+   - Or: Wireshark → Help → About → Folders → Personal Lua Plugins
+3. Restart Wireshark — the plugin loads automatically
+
+### 10.2 Features
+
+| Feature | Wireshark (without plugin) | With plugin |
+|---------|---------------------------|-------------|
+| Location criteria (0x40) | "IE not dissected yet" | Full parsing (TAI list, Cell IDs, PLMN) |
+| Time window (0x80) | "IE not dissected yet" | UTC timestamp display |
+| Connection capabilities (0xA1~0xAB) | "Unknown (0xAx)" | Rel-18 names (IoT, streaming, etc.) |
+| OS Id + OS App Id (0x08) | Raw hex only | Android/iOS category interpretation |
+| OS App Id (0xA0) | Raw hex only | ASCII text display |
+| Destination FQDN (0x91) | Off-by-one bug | Corrected FQDN |
+
+### 10.3 Notes
+
+- Does NOT replace Wireshark's built-in dissection — adds supplementary annotations as a separate protocol tree
+- Remove the plugin if Wireshark adds official support in the future (to avoid conflicts)
+- Works with tshark as well: `tshark -X lua_script:ursp_nas_dissector.lua -r <pcap> -V`
+
+> **Display position note:** Due to Wireshark Lua post-dissector limitations, decoded items appear as a single collapsible tree at the bottom of the packet. Each item references its location in the Wireshark tree so you can easily identify which URSP component it corresponds to:
+> ```
+> ▼ [Extended Info: decoded by ursp_nas_dissector.lua]
+>     ▼ URSP rule 1 → Traffic descriptor
+>         ▼ OS Id + OS App Id
+>             OS: Android
+>             Slice Category: ENTERPRISE
+>     ▼ URSP rule 1 → Route selection descriptor 1
+>         ▶ Location criteria
+>         ▶ Time window
+> ```
+
+---
+
 ## Change History
 
 | Version | Date | Description |
@@ -383,6 +442,7 @@ Close: `✕` button, background click, or `Esc` key
 | v1.0.1 | 2026-05-17 | Encoder: improved empty field validation for IPv4/IPv6 standalone TD with proper error codes (E-TD03–E-TD10), fixed mobile action bar incorrectly showing on desktop |
 | v1.0.2 | 2026-05-22 | Encoder: fixed iOS Traffic Category data model retaining stale value when App Category is changed |
 | v1.0.3 | 2026-05-22 | Added Lite edition (device-compatible TD/RSD types only), improved + TD auto-type selection (Android → iOS → others) |
+| v1.1.0 | 2026-05-28 | Added Wireshark Lua plugin (Location criteria, Time window, Connection capabilities Rel-18, OS Id/App Id, Dest FQDN correction), Result tab UI overhaul (card order change, PCAP view in DL NAS, Hex default for SIM EF.URSP, Save button in tab bar), Time window UTC+KST display, UPSC Edit bug fix |
 
 ---
 
