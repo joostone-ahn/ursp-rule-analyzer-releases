@@ -21,34 +21,34 @@
 -- Author: JUSEOK AHN <ajs3013@lguplus.co.kr>
 -- =============================================================================
 
-local ursp_post = Proto("ursp_nas_ext", "[Extended Info: decoded by ursp_nas_dissector.lua]")
+local ursp_post = Proto("ursp_ext_info", "[Extended Info: decoded by ursp_extended_info.lua]")
 
 -- ============================================================================
 -- Protocol Fields
 -- ============================================================================
 
-local f_loc_len       = ProtoField.uint8("ursp_nas_ext.loc.length", "Length of location criteria contents", base.DEC)
-local f_loc_area_type = ProtoField.uint8("ursp_nas_ext.loc.area_type", "Type of location area", base.DEC)
-local f_loc_num_cells = ProtoField.uint8("ursp_nas_ext.loc.num_cells", "Number of cell identities", base.DEC)
-local f_loc_mcc       = ProtoField.string("ursp_nas_ext.loc.mcc", "Mobile Country Code (MCC)")
-local f_loc_mnc       = ProtoField.string("ursp_nas_ext.loc.mnc", "Mobile Network Code (MNC)")
-local f_loc_nci       = ProtoField.bytes("ursp_nas_ext.loc.nci", "NR Cell Identity (NCI)")
-local f_loc_eci       = ProtoField.bytes("ursp_nas_ext.loc.eci", "E-UTRA Cell Identity (ECI)")
-local f_loc_gnb       = ProtoField.bytes("ursp_nas_ext.loc.gnb_id", "gNB ID")
-local f_loc_tai_len   = ProtoField.uint8("ursp_nas_ext.loc.tai_len", "Length", base.DEC)
-local f_loc_tai_type  = ProtoField.uint8("ursp_nas_ext.loc.tai_type_num", "Type/Num octet", base.HEX)
-local f_loc_tac       = ProtoField.bytes("ursp_nas_ext.loc.tac", "Tracking area code(TAC)")
-local f_tw_start_sec  = ProtoField.uint32("ursp_nas_ext.tw.start_sec", "Start time (seconds)", base.DEC)
-local f_tw_start_frac = ProtoField.uint32("ursp_nas_ext.tw.start_frac", "Start time (fraction)", base.HEX)
-local f_tw_stop_sec   = ProtoField.uint32("ursp_nas_ext.tw.stop_sec", "Stop time (seconds)", base.DEC)
-local f_tw_stop_frac  = ProtoField.uint32("ursp_nas_ext.tw.stop_frac", "Stop time (fraction)", base.HEX)
-local f_tw_start_str  = ProtoField.string("ursp_nas_ext.tw.start_utc", "Start time")
-local f_tw_stop_str   = ProtoField.string("ursp_nas_ext.tw.stop_utc", "Stop time")
-local f_conn_cap_name = ProtoField.string("ursp_nas_ext.conn_cap.name", "Connection capability")
-local f_os_name       = ProtoField.string("ursp_nas_ext.os_id.os_name", "OS")
-local f_app_decoded   = ProtoField.string("ursp_nas_ext.os_id.app_decoded", "OS App Id (decoded)")
-local f_app_ascii     = ProtoField.string("ursp_nas_ext.os_app_id.ascii", "OS App Id (ASCII)")
-local f_fqdn_correct  = ProtoField.string("ursp_nas_ext.dest_fqdn.corrected", "Destination FQDN (corrected)")
+local f_loc_len       = ProtoField.uint8("ursp_ext_info.loc.length", "Length of location criteria contents", base.DEC)
+local f_loc_area_type = ProtoField.uint8("ursp_ext_info.loc.area_type", "Type of location area", base.DEC)
+local f_loc_num_cells = ProtoField.uint8("ursp_ext_info.loc.num_cells", "Number of cell identities", base.DEC)
+local f_loc_mcc       = ProtoField.string("ursp_ext_info.loc.mcc", "Mobile Country Code (MCC)")
+local f_loc_mnc       = ProtoField.string("ursp_ext_info.loc.mnc", "Mobile Network Code (MNC)")
+local f_loc_nci       = ProtoField.bytes("ursp_ext_info.loc.nci", "NR Cell Identity (NCI)")
+local f_loc_eci       = ProtoField.bytes("ursp_ext_info.loc.eci", "E-UTRA Cell Identity (ECI)")
+local f_loc_gnb       = ProtoField.bytes("ursp_ext_info.loc.gnb_id", "gNB ID")
+local f_loc_tai_len   = ProtoField.uint8("ursp_ext_info.loc.tai_len", "Length", base.DEC)
+local f_loc_tai_type  = ProtoField.uint8("ursp_ext_info.loc.tai_type_num", "Type/Num octet", base.HEX)
+local f_loc_tac       = ProtoField.bytes("ursp_ext_info.loc.tac", "Tracking area code(TAC)")
+local f_tw_start_sec  = ProtoField.uint32("ursp_ext_info.tw.start_sec", "Start time (seconds)", base.DEC)
+local f_tw_start_frac = ProtoField.uint32("ursp_ext_info.tw.start_frac", "Start time (fraction)", base.HEX)
+local f_tw_stop_sec   = ProtoField.uint32("ursp_ext_info.tw.stop_sec", "Stop time (seconds)", base.DEC)
+local f_tw_stop_frac  = ProtoField.uint32("ursp_ext_info.tw.stop_frac", "Stop time (fraction)", base.HEX)
+local f_tw_start_str  = ProtoField.string("ursp_ext_info.tw.start_utc", "Start time")
+local f_tw_stop_str   = ProtoField.string("ursp_ext_info.tw.stop_utc", "Stop time")
+local f_conn_cap_name = ProtoField.string("ursp_ext_info.conn_cap.name", "Connection capability")
+local f_os_name       = ProtoField.string("ursp_ext_info.os_id.os_name", "OS")
+local f_app_decoded   = ProtoField.string("ursp_ext_info.os_id.app_decoded", "OS App Id (decoded)")
+local f_app_ascii     = ProtoField.string("ursp_ext_info.os_app_id.ascii", "OS App Id (ASCII)")
+local f_fqdn_correct  = ProtoField.string("ursp_ext_info.dest_fqdn.corrected", "Destination FQDN (corrected)")
 
 ursp_post.fields = {
     f_loc_len, f_loc_area_type, f_loc_num_cells, f_loc_mcc, f_loc_mnc,
@@ -485,7 +485,7 @@ function ursp_post.dissector(tvb, pinfo, tree)
     -- =========================================================================
     if not has_content then return end
 
-    local root = tree:add(ursp_post, tvb(), "[Extended Info: decoded by ursp_nas_dissector.lua]")
+    local root = tree:add(ursp_post, tvb(), "[Extended Info: decoded by ursp_extended_info.lua]")
 
     for _, item in ipairs(items) do
         local loc_tree = root:add(ursp_post, tvb(item.offset, item.len), item.label)

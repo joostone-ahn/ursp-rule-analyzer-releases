@@ -46,7 +46,7 @@ Download the latest exe from [Releases](https://github.com/joostone-ahn/ursp-rul
 
 ## 🔌 Wireshark Lua Plugin
 
-All 36 URSP component types verified through 52 structural test cases (Encoder → Decoder → PCAP Export → Wireshark tshark 4.6.6). Wireshark natively decodes 81% of cases; the remaining 19% are types Wireshark does not yet dissect. To cover these gaps, a companion Lua plugin (`ursp_nas_dissector.lua`) is included in each release.
+All 36 URSP component types verified through 52 structural test cases (Encoder → Decoder → PCAP Export → Wireshark tshark 4.6.6). Wireshark natively decodes 81% of cases; the remaining 19% are types Wireshark does not yet dissect. To cover these gaps, a companion Lua plugin (`ursp_extended_info.lua`) is included in each release.
 
 - [Verification Report](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/pcap/verification_report.md)
 
@@ -61,7 +61,7 @@ All 36 URSP component types verified through 52 structural test cases (Encoder �
 | Destination FQDN (0x91) | Off-by-one bug | Corrected FQDN |
 
 **Install:**
-1. Download `ursp_nas_dissector.lua` from [Releases](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/releases)
+1. Download `ursp_extended_info.lua` from [Releases](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/releases)
 2. Copy to your Wireshark plugins folder:
    - Windows: `%APPDATA%\Wireshark\plugins\`
    - macOS: `~/.local/lib/wireshark/plugins/`
@@ -70,7 +70,7 @@ All 36 URSP component types verified through 52 structural test cases (Encoder �
 
 > The plugin does NOT replace Wireshark's built-in dissection. It adds supplementary annotations as a collapsible tree at the bottom of the packet, with location references for easy identification:
 > ```
-> ▼ [Extended Info: decoded by ursp_nas_dissector.lua]
+> ▼ [Extended Info: decoded by ursp_extended_info.lua]
 >     ▼ URSP rule 1 → Traffic descriptor
 >         ▼ OS Id + OS App Id
 >             OS: Android

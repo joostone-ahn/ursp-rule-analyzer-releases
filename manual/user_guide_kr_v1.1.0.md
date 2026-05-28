@@ -392,11 +392,11 @@ PDU 세션 쌍 식별자 (드롭다운)
 
 ## 10. Wireshark Lua 플러그인
 
-Release에 포함된 `ursp_nas_dissector.lua` 파일은 Wireshark의 URSP 해석을 보완하는 Lua 플러그인입니다.
+Release에 포함된 `ursp_extended_info.lua` 파일은 Wireshark의 URSP 해석을 보완하는 Lua 플러그인입니다.
 
 ### 10.1 설치 방법
 
-1. Release 페이지에서 `ursp_nas_dissector.lua` 다운로드
+1. Release 페이지에서 `ursp_extended_info.lua` 다운로드
 2. Wireshark 플러그인 폴더에 복사:
    - Windows: `%APPDATA%\Wireshark\plugins\`
    - macOS: `~/.local/lib/wireshark/plugins/`
@@ -418,11 +418,11 @@ Release에 포함된 `ursp_nas_dissector.lua` 파일은 Wireshark의 URSP 해석
 
 - 기존 Wireshark 해석을 **교체하지 않습니다** — 별도 프로토콜 트리로 추가 표시
 - Wireshark가 향후 공식 지원 시 플러그인을 제거하면 됩니다 (충돌 방지)
-- tshark에서도 동일하게 동작: `tshark -X lua_script:ursp_nas_dissector.lua -r <pcap> -V`
+- tshark에서도 동일하게 동작: `tshark -X lua_script:ursp_extended_info.lua -r <pcap> -V`
 
 > **표시 위치 안내:** Wireshark Lua post-dissector 구조상, 해석 결과는 패킷 트리 최하단에 별도 접기/펼치기 트리로 표시됩니다. 각 항목은 Wireshark 트리의 위치를 참조하여 어떤 URSP 컴포넌트에 해당하는지 쉽게 식별할 수 있습니다:
 > ```
-> ▼ [Extended Info: decoded by ursp_nas_dissector.lua]
+> ▼ [Extended Info: decoded by ursp_extended_info.lua]
 >     ▼ URSP rule 1 → Traffic descriptor
 >         ▼ OS Id + OS App Id
 >             OS: Android

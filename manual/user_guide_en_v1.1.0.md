@@ -392,11 +392,11 @@ Close: `✕` button, background click, or `Esc` key
 
 ## 10. Wireshark Lua Plugin
 
-A companion Lua plugin (`ursp_nas_dissector.lua`) is included in each release to supplement Wireshark's built-in NAS-5GS dissector.
+A companion Lua plugin (`ursp_extended_info.lua`) is included in each release to supplement Wireshark's built-in NAS-5GS dissector.
 
 ### 10.1 Installation
 
-1. Download `ursp_nas_dissector.lua` from the Release page
+1. Download `ursp_extended_info.lua` from the Release page
 2. Copy to your Wireshark plugins folder:
    - Windows: `%APPDATA%\Wireshark\plugins\`
    - macOS: `~/.local/lib/wireshark/plugins/`
@@ -418,11 +418,11 @@ A companion Lua plugin (`ursp_nas_dissector.lua`) is included in each release to
 
 - Does NOT replace Wireshark's built-in dissection — adds supplementary annotations as a separate protocol tree
 - Remove the plugin if Wireshark adds official support in the future (to avoid conflicts)
-- Works with tshark as well: `tshark -X lua_script:ursp_nas_dissector.lua -r <pcap> -V`
+- Works with tshark as well: `tshark -X lua_script:ursp_extended_info.lua -r <pcap> -V`
 
 > **Display position note:** Due to Wireshark Lua post-dissector limitations, decoded items appear as a single collapsible tree at the bottom of the packet. Each item references its location in the Wireshark tree so you can easily identify which URSP component it corresponds to:
 > ```
-> ▼ [Extended Info: decoded by ursp_nas_dissector.lua]
+> ▼ [Extended Info: decoded by ursp_extended_info.lua]
 >     ▼ URSP rule 1 → Traffic descriptor
 >         ▼ OS Id + OS App Id
 >             OS: Android
