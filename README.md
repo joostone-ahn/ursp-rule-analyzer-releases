@@ -25,7 +25,7 @@ This tool enables that workflow:
 - **Decoder** — Paste hex from network traces, SIM dumps, or protocol captures to decode instantly
 - **PCAP Export** — Download encoded results as .pcap for Wireshark analysis
 - **Multiple Views** — Tree, JSON, PCAP (tshark + Lua plugin, requires Wireshark), Bytemap Table, and raw Hex output
-- **Round-trip Verified** — All 36 component types (52 cases) tested against Wireshark (tshark 4.6.5)
+- **Round-trip Verified** — All 37 component types (53 cases) tested against Wireshark (tshark 4.6.5)
 - **Offline Ready** — Runs as a standalone Windows EXE with no external dependencies
 
 ---
@@ -44,49 +44,29 @@ Download the latest exe from [Releases](https://github.com/joostone-ahn/ursp-rul
 
 ---
 
-## 🔌 Wireshark Lua Plugin
-
-All 36 URSP component types verified through 52 structural test cases (Encoder → Decoder → PCAP Export → Wireshark tshark 4.6.6). Wireshark natively decodes 81% of cases; the remaining 19% are types Wireshark does not yet dissect. To cover these gaps, a companion Lua plugin (`ursp_extended_info.lua`) is included in each release.
-
-- [Verification Report](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/pcap/verification_report.md)
-
-**What the plugin adds:**
-| Feature | Wireshark (without plugin) | With plugin |
-|---------|---------------------------|-------------|
-| Location criteria (0x40) | "IE not dissected yet" | Full parsing (TAI list, Cell IDs, PLMN) |
-| Time window (0x80) | "IE not dissected yet" | UTC timestamp display |
-| Connection capabilities (0xA1~0xAB) | "Unknown (0xAx)" | Rel-18 names (IoT, streaming, etc.) |
-| OS Id + OS App Id (0x08) | Raw hex only | Android/iOS category interpretation |
-| OS App Id (0xA0) | Raw hex only | ASCII text display |
-| Destination FQDN (0x91) | Off-by-one bug | Corrected FQDN |
-
-**Install:**
-1. Download `ursp_extended_info.lua` from [Releases](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/releases)
-2. Copy to your Wireshark Personal Lua Plugins folder:
-   - Windows: `C:\Users\<username>\AppData\Roaming\Wireshark\plugins\` (create `plugins` folder if it doesn't exist)
-   - macOS: `~/.local/lib/wireshark/plugins/` (create folders if they don't exist)
-   - To find the exact path: Wireshark → Help → About Wireshark → Folders tab → "Personal Lua Plugins"
-3. Restart Wireshark — the plugin loads automatically
-
-> The plugin does NOT replace Wireshark's built-in dissection. It adds supplementary annotations as a collapsible tree at the bottom of the packet, with location references for easy identification:
-> ```
-> ▼ [Extended Info: decoded by ursp_extended_info.lua]
->     ▼ URSP rule 1 → Traffic descriptor
->         ▼ OS Id + OS App Id
->             OS: Android
->             Slice Category: ENTERPRISE
->     ▼ URSP rule 1 → Route selection descriptor 1
->         ▶ Location criteria
->         ▶ Time window
-> ```
-
----
-
 ## 📖 How to Use
 
 See the User Guide for detailed instructions:
-- [English](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/manual/user_guide_en_v1.1.0.md)
-- [한국어](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/manual/user_guide_kr_v1.1.0.md)
+- [English](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/manual/user_guide_en_v1.1.1.md)
+- [한국어](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/manual/user_guide_kr_v1.1.1.md)
+
+---
+
+## 🔌 Wireshark Lua Plugin
+
+Wireshark cannot fully parse several URSP types (Location criteria, Time window, Regular expression, etc.), displaying "IE not dissected yet" and losing all subsequent components. The included Lua plugin resolves all parsing gaps — covering all 37 types (RSD 13 + TD 24). See the [Verification Report](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/wireshark/wireshark_protocol_verification.md) for Wireshark native parsing status, Lua plugin resolution, and format consistency verification results.
+
+**How to apply:**
+1. Download `ursp_extended_info.lua` from [Releases](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/releases)
+2. Copy to Wireshark Personal Lua Plugins folder:
+   - Windows: `%APPDATA%\Wireshark\plugins\`
+   - macOS: `~/.local/lib/wireshark/plugins/`
+   - Linux: `~/.local/lib/wireshark/plugins/`
+3. Restart Wireshark — the plugin loads automatically
+
+> The plugin does NOT replace Wireshark's built-in dissection. It adds supplementary annotations as a collapsible tree at the bottom of the packet.
+
+For supported types, PCAP view behavior, and detailed explanation, see "Wireshark Lua Plugin" section in the User Guide.
 
 ---
 
@@ -97,6 +77,19 @@ See the User Guide for detailed instructions:
 - [TS 24.501](https://www.3gpp.org/ftp/Specs/archive/24_series/24.501/) - NAS Signaling Procedures
 - [TS 31.102](https://www.3gpp.org/ftp/Specs/archive/31_series/31.102/) - EF_URSP File Format in USIM Application
 - [TS 23.503](https://www.3gpp.org/ftp/Specs/archive/23_series/23.503/) - Policy and Charging Control Framework
+
+---
+
+##  Change History
+
+| Version | Date | Description |
+|---------|------|-------------|
+| v1.0.0 | 2026-05-17 | Initial release |
+| v1.0.1 | 2026-05-17 | Encoder: improved empty field validation for IPv4/IPv6 standalone TD (E-TD03–E-TD10), fixed mobile action bar desktop bug |
+| v1.0.2 | 2026-05-22 | Encoder: fixed iOS Traffic Category data model retaining stale value |
+| v1.0.3 | 2026-05-22 | Added Lite edition (device-compatible types only), TD auto-type selection improvement |
+| v1.1.0 | 2026-05-28 | Wireshark Lua plugin (Location criteria, Time window, Conn Cap Rel-18, OS Id/App Id, FQDN), Result tab UI overhaul, Time window UTC+KST, UPSC Edit fix |
+| v1.1.1 | 2026-05-29 | Lua full RSD/TD parsing (all 37 types), PCAP view unified output, directory restructure, verification report |
 
 ---
 

@@ -1,6 +1,6 @@
-# URSP Rule Analyzer 사용자 가이드 v1.1.0
+# URSP Rule Analyzer 사용자 가이드 v1.1.1
 
-**버전:** v1.1.0  
+**버전:** v1.1.1  
 **최종 수정일:** 2026-05-28
 
 ---
@@ -17,13 +17,12 @@
 8. [Result 탭](#8-result-탭)
 9. [Guide 모달](#9-guide-모달)
 10. [Wireshark Lua 플러그인](#10-wireshark-lua-플러그인)
-11. [수정 이력](#수정-이력)
 
 ---
 
 ## 1. 실행 방법
 
-1. `URSP-Rule-Analyzer-v1.1.0.exe` 파일을 더블클릭합니다.
+1. `URSP-Rule-Analyzer-v1.1.1.exe` 파일을 더블클릭합니다.
 2. 콘솔 창에 `Access the application at: http://127.0.0.1:8081` 메시지가 표시됩니다.
 3. 웹 브라우저에서 해당 주소에 접속합니다.
 4. 종료: 콘솔 창을 닫거나 `Ctrl+C`
@@ -32,7 +31,7 @@
 
 ### Lite 버전
 
-`URSP-Rule-Analyzer-Lite-v1.1.0.exe`는 실제 단말에서 지원되는 핵심 기능만 포함한 경량 버전입니다.
+`URSP-Rule-Analyzer-Lite-v1.1.1.exe`는 실제 단말에서 지원되는 핵심 기능만 포함한 경량 버전입니다.
 
 - **TD 타입**: Match-all, OS Id + OS App Id, DNN, Connection capabilities
 - **RSD 타입**: S-NSSAI, DNN, Location criteria, Time window
@@ -356,6 +355,12 @@ PDU 세션 쌍 식별자 (드롭다운)
   - **요구 사항**: 시스템에 Wireshark(tshark 포함)가 설치되어 있어야 동작합니다
   - Wireshark 미설치 시 PCAP 토글이 표시되지 않으며 Table이 기본 뷰가 됩니다
   - Lua 플러그인이 자동 적용되어 Location criteria, Time window 등이 해석됩니다
+  - **파란색 텍스트**: Lua 플러그인이 보강한 부분을 의미함
+    - Wireshark가 "IE not dissected yet"으로 실패한 영역을 Lua가 대신 파싱한 결과
+    - Wireshark가 hex로만 표시한 값에 대해 Lua가 추가한 해석 (OS 이름, 카테고리 등)
+    - Wireshark가 잘못 표시한 값을 Lua가 정정한 결과 (FQDN)
+  - PCAP 뷰에서 "IE not dissected yet" 에러는 표시되지 않으며, Lua 파싱 결과로 대체됨
+  - 보완 대상 타입 상세는 [10장. Wireshark Lua 플러그인](#10-wireshark-lua-플러그인) 참조
 - **Table 뷰**: Bytemap 테이블 (Idx, Hex, Description)
   - Length 필드는 description 뒤에 decimal 값이 자동 계산되어 표시됩니다
 - **Hex 뷰**: 오프셋 포함 hex 덤프
@@ -410,6 +415,11 @@ Release에 포함된 `ursp_extended_info.lua` 파일은 Wireshark의 URSP 해석
 |------|--------------------------|-----------------|
 | Location criteria (0x40) | "IE not dissected yet" | TAI list, Cell ID, PLMN 전체 파싱 |
 | Time window (0x80) | "IE not dissected yet" | UTC 시간 표시 |
+| Regular expression (0x92) | "IE not dissected yet" | 정규식 문자열 표시 |
+| PDU session pair ID (0x82) | "IE not dissected yet" | 값 표시 |
+| RSN (0x83) | "IE not dissected yet" | 값 표시 |
+| PIN ID (0xA2) | "Unknown" + not dissected | 전체 파싱 |
+| Connectivity group ID (0xA3) | "Unknown" + not dissected | 전체 파싱 |
 | Connection capabilities (0xA1~0xAB) | "Unknown (0xAx)" | Rel-18 이름 표시 |
 | OS Id + OS App Id (0x08) | raw hex | Android/iOS 카테고리 해석 |
 | OS App Id (0xA0) | raw hex | ASCII 텍스트 표시 |
@@ -434,17 +444,6 @@ Release에 포함된 `ursp_extended_info.lua` 파일은 Wireshark의 URSP 해석
 > ```
 
 ---
-
-## 수정 이력
-
-| 버전 | 날짜 | 내용 |
-|------|------|------|
-| v1.0.0 | 2026-05-17 | 최초 배포 |
-| v1.0.1 | 2026-05-17 | Encoder: IPv4/IPv6 standalone TD 빈 필드 검증 에러코드 개선 (E-TD03–E-TD10), 모바일 액션바 데스크톱 노출 버그 수정 |
-| v1.0.2 | 2026-05-22 | Encoder: iOS App Category 변경 시 Traffic Category 데이터 모델이 이전 값을 유지하는 버그 수정 |
-| v1.0.3 | 2026-05-22 | Lite 버전 추가 (단말 지원 TD/RSD 타입만 제공), + TD 자동 타입 선택 개선 (Android → iOS → 기타 순) |
-| v1.1.0 | 2026-05-28 | Wireshark Lua 플러그인 추가 (Location criteria, Time window, Connection capabilities Rel-18, OS Id/App Id, Dest FQDN 보정), Result 탭 UI 개편 (카드 순서 변경, DL NAS에 PCAP 뷰 추가, SIM EF.URSP Hex 기본 뷰, 탭 바에 Save 버튼 이동), Time window UTC+KST 병기, UPSC Edit 버그 수정 |
-
 ---
 
 **© 2026 JUSEOK AHN <ajs3013@lguplus.co.kr> All rights reserved.**

@@ -1,6 +1,6 @@
-# URSP Rule Analyzer User Guide v1.1.0
+# URSP Rule Analyzer User Guide v1.1.1
 
-**Version:** v1.1.0  
+**Version:** v1.1.1  
 **Last Updated:** 2026-05-28
 
 ---
@@ -17,13 +17,12 @@
 8. [Result Tab](#8-result-tab)
 9. [Guide Modal](#9-guide-modal)
 10. [Wireshark Lua Plugin](#10-wireshark-lua-plugin)
-11. [Change History](#change-history)
 
 ---
 
 ## 1. How to Run
 
-1. Double-click the `URSP-Rule-Analyzer-v1.1.0.exe` file.
+1. Double-click the `URSP-Rule-Analyzer-v1.1.1.exe` file.
 2. A console window will display the message `Access the application at: http://127.0.0.1:8081`.
 3. Open the address in your web browser.
 4. To quit: close the console window or press `Ctrl+C`.
@@ -32,7 +31,7 @@
 
 ### Lite Edition
 
-`URSP-Rule-Analyzer-Lite-v1.1.0.exe` is a lightweight edition that includes only device-supported core features.
+`URSP-Rule-Analyzer-Lite-v1.1.1.exe` is a lightweight edition that includes only device-supported core features.
 
 - **TD types**: Match-all, OS Id + OS App Id, DNN, Connection capabilities
 - **RSD types**: S-NSSAI, DNN, Location criteria, Time window
@@ -356,6 +355,12 @@ Encoding/decoding results are displayed in 3 cards.
   - **Requirement**: Wireshark (with TShark component) must be installed on the system
   - If Wireshark is not installed, the PCAP toggle is hidden and Table becomes the default view
   - Lua plugin is automatically applied to decode Location criteria, Time window, etc.
+  - **Blue text**: Indicates lines supplemented by the Lua plugin
+    - Areas where Wireshark failed with "IE not dissected yet" — Lua parses instead
+    - Values Wireshark shows as raw hex — Lua adds human-readable interpretation (OS name, category, etc.)
+    - Values Wireshark displays incorrectly — Lua provides corrected result (FQDN)
+  - "IE not dissected yet" errors are not shown in PCAP view; replaced by Lua parsing results
+  - For full list of supplemented types, see [Section 10. Wireshark Lua Plugin](#10-wireshark-lua-plugin)
 - **Table view**: Bytemap table (Idx, Hex, Description)
   - Length fields automatically display the decimal value after the description
 - **Hex view**: Hex dump with offset
@@ -410,6 +415,11 @@ A companion Lua plugin (`ursp_extended_info.lua`) is included in each release to
 |---------|---------------------------|-------------|
 | Location criteria (0x40) | "IE not dissected yet" | Full parsing (TAI list, Cell IDs, PLMN) |
 | Time window (0x80) | "IE not dissected yet" | UTC timestamp display |
+| Regular expression (0x92) | "IE not dissected yet" | Regex string display |
+| PDU session pair ID (0x82) | "IE not dissected yet" | Value display |
+| RSN (0x83) | "IE not dissected yet" | Value display |
+| PIN ID (0xA2) | "Unknown" + not dissected | Full parsing |
+| Connectivity group ID (0xA3) | "Unknown" + not dissected | Full parsing |
 | Connection capabilities (0xA1~0xAB) | "Unknown (0xAx)" | Rel-18 names (IoT, streaming, etc.) |
 | OS Id + OS App Id (0x08) | Raw hex only | Android/iOS category interpretation |
 | OS App Id (0xA0) | Raw hex only | ASCII text display |
@@ -432,18 +442,6 @@ A companion Lua plugin (`ursp_extended_info.lua`) is included in each release to
 >         ▶ Location criteria
 >         ▶ Time window
 > ```
-
----
-
-## Change History
-
-| Version | Date | Description |
-|---------|------|-------------|
-| v1.0.0 | 2026-05-17 | Initial release |
-| v1.0.1 | 2026-05-17 | Encoder: improved empty field validation for IPv4/IPv6 standalone TD with proper error codes (E-TD03–E-TD10), fixed mobile action bar incorrectly showing on desktop |
-| v1.0.2 | 2026-05-22 | Encoder: fixed iOS Traffic Category data model retaining stale value when App Category is changed |
-| v1.0.3 | 2026-05-22 | Added Lite edition (device-compatible TD/RSD types only), improved + TD auto-type selection (Android → iOS → others) |
-| v1.1.0 | 2026-05-28 | Added Wireshark Lua plugin (Location criteria, Time window, Connection capabilities Rel-18, OS Id/App Id, Dest FQDN correction), Result tab UI overhaul (card order change, PCAP view in DL NAS, Hex default for SIM EF.URSP, Save button in tab bar), Time window UTC+KST display, UPSC Edit bug fix |
 
 ---
 
