@@ -50,14 +50,14 @@ only adds supplementary interpretation (OS Id decode, Rel-18 names, FQDN correct
 
 ### 3.1 RSD (Route Selection Descriptor) — 13 Types
 
-#### 3.1.1 ✅ 0x01 SSC mode — [RSD_0x01_SSC_mode.pcap](pcap/RSD_0x01_SSC_mode.pcap)
+#### 3.1.1 ✅ 0x01 SSC mode — [RSD_0x01_SSC_mode.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/RSD_0x01_SSC_mode.pcap)
 
 ```
 Route selection descriptor component type identifier: SSC mode (1)
 .... .001 = SSC mode: SSC mode 1 (1)
 ```
 
-#### 3.1.2 ✅ 0x02 S-NSSAI — [RSD_0x02_2_S_NSSAI_SST_SD.pcap](pcap/RSD_0x02_2_S_NSSAI_SST_SD.pcap)
+#### 3.1.2 ✅ 0x02 S-NSSAI — [RSD_0x02_2_S_NSSAI_SST_SD.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/RSD_0x02_2_S_NSSAI_SST_SD.pcap)
 
 ```
 Route selection descriptor component type identifier: S-NSSAI (2)
@@ -66,7 +66,7 @@ Slice/service type (SST): eMBB (1)
 Slice differentiator (SD): 100
 ```
 
-#### 3.1.3 ✅ 0x04 DNN — [RSD_0x04_DNN.pcap](pcap/RSD_0x04_DNN.pcap)
+#### 3.1.3 ✅ 0x04 DNN — [RSD_0x04_DNN.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/RSD_0x04_DNN.pcap)
 
 ```
 Route selection descriptor component type identifier: DNN (4)
@@ -74,14 +74,14 @@ Length: 9
 DNN: internet
 ```
 
-#### 3.1.4 ✅ 0x08 PDU session type — [RSD_0x08_PDU_session_type.pcap](pcap/RSD_0x08_PDU_session_type.pcap)
+#### 3.1.4 ✅ 0x08 PDU session type — [RSD_0x08_PDU_session_type.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/RSD_0x08_PDU_session_type.pcap)
 
 ```
 Route selection descriptor component type identifier: PDU session type (8)
 .... .001 = PDU session type: IPv4 (1)
 ```
 
-#### 3.1.5 ✅ 0x10 Preferred access type — [RSD_0x10_preferred_access_type.pcap](pcap/RSD_0x10_preferred_access_type.pcap)
+#### 3.1.5 ✅ 0x10 Preferred access type — [RSD_0x10_preferred_access_type.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/RSD_0x10_preferred_access_type.pcap)
 
 ```
 Route selection descriptor component type identifier: Preferred access type (16)
@@ -90,19 +90,19 @@ Route selection descriptor component type identifier: Preferred access type (16)
 .... ..01 = Access type: 3GPP access (1)
 ```
 
-#### 3.1.6 ✅ 0x11 Multi-access preference — [RSD_0x11_multi_access_preference.pcap](pcap/RSD_0x11_multi_access_preference.pcap)
+#### 3.1.6 ✅ 0x11 Multi-access preference — [RSD_0x11_multi_access_preference.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/RSD_0x11_multi_access_preference.pcap)
 
 ```
 Route selection descriptor component type identifier: Multi-access preference (17)
 ```
 
-#### 3.1.7 ✅ 0x20 Non-seamless offload — [RSD_0x20_non_seamless_offload.pcap](pcap/RSD_0x20_non_seamless_offload.pcap)
+#### 3.1.7 ✅ 0x20 Non-seamless offload — [RSD_0x20_non_seamless_offload.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/RSD_0x20_non_seamless_offload.pcap)
 
 ```
 Route selection descriptor component type identifier: Non-seamless non-3GPP offload indication (32)
 ```
 
-#### 3.1.8 ❌→✅ 0x40 Location criteria — [RSD_0x40_1_location_NR.pcap](pcap/RSD_0x40_1_location_NR.pcap)
+#### 3.1.8 ❌→✅ 0x40 Location criteria — [RSD_0x40_1_location_NR.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/RSD_0x40_1_location_NR.pcap)
 
 Wireshark native (fails):
 ```
@@ -127,7 +127,7 @@ Location criteria
         NCI: 8000000000
 ```
 
-#### 3.1.9 ❌→✅ 0x80 Time window — [RSD_0x80_time_window.pcap](pcap/RSD_0x80_time_window.pcap)
+#### 3.1.9 ❌→✅ 0x80 Time window — [RSD_0x80_time_window.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/RSD_0x80_time_window.pcap)
 
 Wireshark native (fails):
 ```
@@ -143,13 +143,13 @@ Time window
     Stoptime: Dec 31, 2026 14:59:59.000000000 UTC
 ```
 
-#### 3.1.10 ✅ 0x81 5G ProSe relay offload — [RSD_0x81_ProSe_relay_offload.pcap](pcap/RSD_0x81_ProSe_relay_offload.pcap)
+#### 3.1.10 ✅ 0x81 5G ProSe relay offload — [RSD_0x81_ProSe_relay_offload.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/RSD_0x81_ProSe_relay_offload.pcap)
 
 ```
 Route selection descriptor component type identifier: 5G ProSe layer-3 UE-to-network relay offload indication (33)
 ```
 
-#### 3.1.11 ❌→✅ 0x82 PDU session pair ID — [RSD_0x82_PDU_session_pair_ID.pcap](pcap/RSD_0x82_PDU_session_pair_ID.pcap)
+#### 3.1.11 ❌→✅ 0x82 PDU session pair ID — [RSD_0x82_PDU_session_pair_ID.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/RSD_0x82_PDU_session_pair_ID.pcap)
 
 Wireshark native (fails):
 ```
@@ -163,7 +163,7 @@ Route selection descriptor component type identifier: PDU session pair ID type (
 PDU session pair ID: 1
 ```
 
-#### 3.1.12 ❌→✅ 0x83 RSN — [RSD_0x83_RSN.pcap](pcap/RSD_0x83_RSN.pcap)
+#### 3.1.12 ❌→✅ 0x83 RSN — [RSD_0x83_RSN.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/RSD_0x83_RSN.pcap)
 
 Wireshark native (fails):
 ```
@@ -177,7 +177,7 @@ Route selection descriptor component type identifier: RSN type (131)
 RSN: 0
 ```
 
-#### 3.1.13 ❌→✅ 0x84 5G ProSe multi-path — [RSD_0x84_ProSe_multipath.pcap](pcap/RSD_0x84_ProSe_multipath.pcap)
+#### 3.1.13 ❌→✅ 0x84 5G ProSe multi-path — [RSD_0x84_ProSe_multipath.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/RSD_0x84_ProSe_multipath.pcap)
 
 Wireshark native (unregistered type):
 ```
@@ -191,13 +191,13 @@ Route selection descriptor component type identifier: 5G ProSe multi-path prefer
 
 ### 3.2 TD (Traffic Descriptor) — 24 Types
 
-#### 3.2.1 ✅ 0x01 Match-all — [TD_0x01_match_all.pcap](pcap/TD_0x01_match_all.pcap)
+#### 3.2.1 ✅ 0x01 Match-all — [TD_0x01_match_all.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0x01_match_all.pcap)
 
 ```
 Traffic descriptor: Match-all type (1)
 ```
 
-#### 3.2.2 ⚠️→✅ 0x08 OS Id + OS App Id — [TD_0x08_1_OS_Id_Android_ENTERPRISE.pcap](pcap/TD_0x08_1_OS_Id_Android_ENTERPRISE.pcap)
+#### 3.2.2 ⚠️→✅ 0x08 OS Id + OS App Id — [TD_0x08_1_OS_Id_Android_ENTERPRISE.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0x08_1_OS_Id_Android_ENTERPRISE.pcap)
 
 Wireshark native (hex only, no interpretation):
 ```
@@ -217,7 +217,7 @@ OS App id: 454e5445525052495345
     Slice Category: ENTERPRISE
 ```
 
-#### 3.2.3 ✅ 0x10 IPv4 remote address — [TD_0x10_IPv4_remote_address.pcap](pcap/TD_0x10_IPv4_remote_address.pcap)
+#### 3.2.3 ✅ 0x10 IPv4 remote address — [TD_0x10_IPv4_remote_address.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0x10_IPv4_remote_address.pcap)
 
 ```
 Traffic descriptor: IPv4 remote address type (16)
@@ -225,7 +225,7 @@ IPv4 address: 192.168.1.1
 IPv4 mask: 255.255.255.0
 ```
 
-#### 3.2.4 ✅ 0x21 IPv6 remote address — [TD_0x21_IPv6_remote_address.pcap](pcap/TD_0x21_IPv6_remote_address.pcap)
+#### 3.2.4 ✅ 0x21 IPv6 remote address — [TD_0x21_IPv6_remote_address.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0x21_IPv6_remote_address.pcap)
 
 ```
 Traffic descriptor: IPv6 remote address/prefix length type (33)
@@ -233,21 +233,21 @@ IPv6 address: 2001:db8::1
 IPv6 prefix length: 64
 ```
 
-#### 3.2.5 ✅ 0x30 Protocol identifier — [TD_0x30_protocol_id.pcap](pcap/TD_0x30_protocol_id.pcap)
+#### 3.2.5 ✅ 0x30 Protocol identifier — [TD_0x30_protocol_id.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0x30_protocol_id.pcap)
 
 ```
 Traffic descriptor: Protocol identifier/next header type (48)
 Protocol identifier/next header type: TCP (6)
 ```
 
-#### 3.2.6 ✅ 0x50 Single remote port — [TD_0x50_single_remote_port.pcap](pcap/TD_0x50_single_remote_port.pcap)
+#### 3.2.6 ✅ 0x50 Single remote port — [TD_0x50_single_remote_port.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0x50_single_remote_port.pcap)
 
 ```
 Traffic descriptor: Single remote port type (80)
 Remote port: 443
 ```
 
-#### 3.2.7 ✅ 0x51 Remote port range — [TD_0x51_remote_port_range.pcap](pcap/TD_0x51_remote_port_range.pcap)
+#### 3.2.7 ✅ 0x51 Remote port range — [TD_0x51_remote_port_range.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0x51_remote_port_range.pcap)
 
 ```
 Traffic descriptor: Remote port range type (81)
@@ -255,7 +255,7 @@ Remote port range low: 8000
 Remote port range high: 8080
 ```
 
-#### 3.2.8 ✅ 0x52 IP 3 tuple — [TD_0x52_3_IPv4_proto_port.pcap](pcap/TD_0x52_3_IPv4_proto_port.pcap)
+#### 3.2.8 ✅ 0x52 IP 3 tuple — [TD_0x52_3_IPv4_proto_port.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0x52_3_IPv4_proto_port.pcap)
 
 ```
 Traffic descriptor: IP 3 tuple type (82)
@@ -266,14 +266,14 @@ Protocol identifier/next header type: TCP (6)
 Remote port: 8080
 ```
 
-#### 3.2.9 ✅ 0x60 Security parameter index — [TD_0x60_SPI.pcap](pcap/TD_0x60_SPI.pcap)
+#### 3.2.9 ✅ 0x60 Security parameter index — [TD_0x60_SPI.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0x60_SPI.pcap)
 
 ```
 Traffic descriptor: Security parameter index type (96)
 Security parameter index: 0x12345678
 ```
 
-#### 3.2.10 ✅ 0x70 ToS/traffic class — [TD_0x70_ToS_traffic_class.pcap](pcap/TD_0x70_ToS_traffic_class.pcap)
+#### 3.2.10 ✅ 0x70 ToS/traffic class — [TD_0x70_ToS_traffic_class.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0x70_ToS_traffic_class.pcap)
 
 ```
 Traffic descriptor: Type of service/traffic class type (112)
@@ -281,14 +281,14 @@ Type of service/traffic class: 0xb8
 Type of service/traffic class mask: 0xfc
 ```
 
-#### 3.2.11 ✅ 0x80 Flow label — [TD_0x80_flow_label.pcap](pcap/TD_0x80_flow_label.pcap)
+#### 3.2.11 ✅ 0x80 Flow label — [TD_0x80_flow_label.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0x80_flow_label.pcap)
 
 ```
 Traffic descriptor: Flow label type (128)
 .... 0001 0010 0011 0100 0101 = Flow label: 0x12345
 ```
 
-#### 3.2.12 ✅ 0x81 Destination MAC — [TD_0x81_dest_MAC.pcap](pcap/TD_0x81_dest_MAC.pcap)
+#### 3.2.12 ✅ 0x81 Destination MAC — [TD_0x81_dest_MAC.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0x81_dest_MAC.pcap)
 
 ```
 Traffic descriptor: Destination MAC address type (129)
@@ -297,7 +297,7 @@ Destination MAC address: aa:bb:cc:dd:ee:ff (aa:bb:cc:dd:ee:ff)
 
 #### 3.2.13 ✅ 0x83–0x86 802.1Q VLAN tags
 
-[TD_0x83_CTAG_VID.pcap](pcap/TD_0x83_CTAG_VID.pcap) / [TD_0x85_CTAG_PCP_DEI.pcap](pcap/TD_0x85_CTAG_PCP_DEI.pcap)
+[TD_0x83_CTAG_VID.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0x83_CTAG_VID.pcap) / [TD_0x85_CTAG_PCP_DEI.pcap](pcap/TD_0x85_CTAG_PCP_DEI.pcap)
 
 ```
 .... 0000 0110 0100 = 802.1Q C-TAG VID: 0x064
@@ -305,14 +305,14 @@ Destination MAC address: aa:bb:cc:dd:ee:ff (aa:bb:cc:dd:ee:ff)
 .... ...1 = 802.1Q C-TAG DEI: 0x1
 ```
 
-#### 3.2.14 ✅ 0x87 Ethertype — [TD_0x87_ethertype.pcap](pcap/TD_0x87_ethertype.pcap)
+#### 3.2.14 ✅ 0x87 Ethertype — [TD_0x87_ethertype.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0x87_ethertype.pcap)
 
 ```
 Traffic descriptor: Ethertype type (135)
 Ethertype: IPv4 (0x0800)
 ```
 
-#### 3.2.15 ✅ 0x88 DNN — [TD_0x88_DNN.pcap](pcap/TD_0x88_DNN.pcap)
+#### 3.2.15 ✅ 0x88 DNN — [TD_0x88_DNN.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0x88_DNN.pcap)
 
 ```
 Traffic descriptor: DNN type (136)
@@ -320,7 +320,7 @@ Length: 9
 DNN: internet
 ```
 
-#### 3.2.16 ⚠️→✅ 0x90 Connection capabilities — [TD_0x90_2_connection_capabilities_multi.pcap](pcap/TD_0x90_2_connection_capabilities_multi.pcap)
+#### 3.2.16 ⚠️→✅ 0x90 Connection capabilities — [TD_0x90_2_connection_capabilities_multi.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0x90_2_connection_capabilities_multi.pcap)
 
 Wireshark native (Rel-18 values shown as "Unknown"):
 ```
@@ -340,7 +340,7 @@ Connection capability: Internet (0x08)
 Connection capability: IoT delay-tolerant (0xa1)
 ```
 
-#### 3.2.17 ❌→⚠️ 0x91 Destination FQDN — [TD_0x91_dest_FQDN.pcap](pcap/TD_0x91_dest_FQDN.pcap)
+#### 3.2.17 ❌→⚠️ 0x91 Destination FQDN — [TD_0x91_dest_FQDN.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0x91_dest_FQDN.pcap)
 
 Wireshark native (bug — first character dropped):
 ```
@@ -372,7 +372,7 @@ Encoded hex:
 - First byte `0x65` ('e' = 101) misinterpreted as label length → skipped
 - Result: `xample.com` (first character dropped)
 
-#### 3.2.18 ❌→✅ 0x92 Regular expression — [TD_0x92_regex.pcap](pcap/TD_0x92_regex.pcap)
+#### 3.2.18 ❌→✅ 0x92 Regular expression — [TD_0x92_regex.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0x92_regex.pcap)
 
 Wireshark native (fails):
 ```
@@ -387,7 +387,7 @@ Length: 16
 Regular expression: .*\.example\.com
 ```
 
-#### 3.2.19 ⚠️→✅ 0xA0 OS App Id — [TD_0xA0_OS_App_Id.pcap](pcap/TD_0xA0_OS_App_Id.pcap)
+#### 3.2.19 ⚠️→✅ 0xA0 OS App Id — [TD_0xA0_OS_App_Id.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0xA0_OS_App_Id.pcap)
 
 Wireshark native (hex only):
 ```
@@ -404,7 +404,7 @@ OS App id: 636f6d2e6578616d706c652e617070
     OS App Id (ASCII): com.example.app
 ```
 
-#### 3.2.20 ✅ 0xA1 Destination MAC range — [TD_0xA1_dest_MAC_range.pcap](pcap/TD_0xA1_dest_MAC_range.pcap)
+#### 3.2.20 ✅ 0xA1 Destination MAC range — [TD_0xA1_dest_MAC_range.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0xA1_dest_MAC_range.pcap)
 
 ```
 Traffic descriptor: Destination MAC address range type (161)
@@ -412,7 +412,7 @@ Destination MAC address range low: aa:bb:cc:dd:ee:00 (aa:bb:cc:dd:ee:00)
 Destination MAC address range high: aa:bb:cc:dd:ee:ff (aa:bb:cc:dd:ee:ff)
 ```
 
-#### 3.2.21 ❌→✅ 0xA2 PIN ID — [TD_0xA2_PIN_ID.pcap](pcap/TD_0xA2_PIN_ID.pcap)
+#### 3.2.21 ❌→✅ 0xA2 PIN ID — [TD_0xA2_PIN_ID.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0xA2_PIN_ID.pcap)
 
 Wireshark native (unregistered type, fails):
 ```
@@ -427,7 +427,7 @@ Length: 7
 PIN ID: pin-001
 ```
 
-#### 3.2.22 ❌→✅ 0xA3 Connectivity group ID — [TD_0xA3_connectivity_group_ID.pcap](pcap/TD_0xA3_connectivity_group_ID.pcap)
+#### 3.2.22 ❌→✅ 0xA3 Connectivity group ID — [TD_0xA3_connectivity_group_ID.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0xA3_connectivity_group_ID.pcap)
 
 Wireshark native (unregistered type, fails):
 ```
