@@ -13,7 +13,7 @@
 
 ## 2. Lua Plugin Overview
 
-`ursp_extended_info.lua` (v1.1.1) is a Wireshark post-dissector that supplements
+`ursp_extended_info.lua` (v1.1.2) is a Wireshark post-dissector that supplements
 the built-in NAS-5GS dissector for URSP protocol parsing.
 
 ### What it does
@@ -102,7 +102,7 @@ Route selection descriptor component type identifier: Multi-access preference (1
 Route selection descriptor component type identifier: Non-seamless non-3GPP offload indication (32)
 ```
 
-#### 3.1.8 ❌→✅ 0x40 Location criteria — [RSD_0x40_1_location_NR.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/RSD_0x40_1_location_NR.pcap)
+#### 3.1.8 ❌→✅ 0x40 Location criteria — [RSD_0x40_5_location_combined.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/RSD_0x40_5_location_combined.pcap)
 
 Wireshark native (fails):
 ```
@@ -110,21 +110,45 @@ Route selection descriptor component type identifier: Location criteria type (64
 IE not dissected yet
 ```
 
-Lua plugin (parses successfully):
+Lua plugin (parses successfully — RSD_0x40_5_location_combined.pcap):
 ```
 Route selection descriptor component type identifier: Location criteria (64)
 Location criteria
-    Length of location criteria contents: 18
+    Length of location criteria contents: 44
     Type of location area: NR cell identities (2)
-    Number of cell identities: 2
+    Number of cell identities: 1
     NR cell identity 1
-        Mobile Country Code (MCC): 214
-        Mobile Network Code (MNC): 653
-        NCI: 7000000000
-    NR cell identity 2
-        Mobile Country Code (MCC): 325
-        Mobile Network Code (MNC): 764
-        NCI: 8000000000
+        Mobile Country Code (MCC): 450
+        Mobile Network Code (MNC): 06
+        NR Cell ID: 0x0000001111
+    Type of location area: E-UTRA cell identities (1)
+    Number of cell identities: 1
+    E-UTRA cell identity 1
+        Mobile Country Code (MCC): 450
+        Mobile Network Code (MNC): 06
+        E-UTRA Cell ID: 0x12345678
+    Type of location area: Global RAN node identities (3)
+    Number of cell identities: 1
+    Global RAN node identity 1
+        Mobile Country Code (MCC): 450
+        Mobile Network Code (MNC): 06
+        gNB ID: 0xaabbccdd
+    Type of location area: Tracking area identities (4)
+    Length: 14
+    Partial tracking area identity list 1
+        0... .... = Spare: 0
+        .01. .... = Type of list: list of TACs belonging to one PLMN, with consecutive TAC values (1)
+        ...0 0001 = Number of elements: 2 elements
+        Mobile Country Code (MCC): 450
+        Mobile Network Code (MNC): 06
+        TAC: 1
+    Partial tracking area identity list 2
+        0... .... = Spare: 0
+        .00. .... = Type of list: list of TACs belonging to one PLMN, with non-consecutive TAC values (0)
+        ...0 0000 = Number of elements: 1 element
+        Mobile Country Code (MCC): 450
+        Mobile Network Code (MNC): 06
+        TAC: 16
 ```
 
 #### 3.1.9 ❌→✅ 0x80 Time window — [RSD_0x80_time_window.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/RSD_0x80_time_window.pcap)
@@ -561,4 +585,4 @@ flowchart LR
 ### 4.4 Environment
 
 - Wireshark: TShark 4.6.5 (macOS)
-- Lua plugin: `ursp_extended_info.lua` v1.1.1
+- Lua plugin: `ursp_extended_info.lua` v1.1.2

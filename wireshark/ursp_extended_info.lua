@@ -23,7 +23,7 @@
 --   Linux:   ~/.local/lib/wireshark/plugins/
 --
 -- Reference: 3GPP TS 24.526, TS 24.501 Section 9.11.3.9
--- Version: 1.1.1
+-- Version: 1.1.2
 -- Author: JUSEOK AHN <ajs3013@lguplus.co.kr>
 -- =============================================================================
 
@@ -43,7 +43,7 @@ local f_loc_eci       = ProtoField.bytes("ursp_ext_info.loc.eci", "E-UTRA Cell I
 local f_loc_gnb       = ProtoField.bytes("ursp_ext_info.loc.gnb_id", "gNB ID")
 local f_loc_tai_len   = ProtoField.uint8("ursp_ext_info.loc.tai_len", "Length", base.DEC)
 local f_loc_tai_type  = ProtoField.uint8("ursp_ext_info.loc.tai_type_num", "Type/Num octet", base.HEX)
-local f_loc_tac       = ProtoField.bytes("ursp_ext_info.loc.tac", "Tracking area code(TAC)")
+local f_loc_tac       = ProtoField.bytes("ursp_ext_info.loc.tac", "TAC")
 local f_tw_start_sec  = ProtoField.uint32("ursp_ext_info.tw.start_sec", "Start time (seconds)", base.DEC)
 local f_tw_start_frac = ProtoField.uint32("ursp_ext_info.tw.start_frac", "Start time (fraction)", base.HEX)
 local f_tw_stop_sec   = ProtoField.uint32("ursp_ext_info.tw.stop_sec", "Stop time (seconds)", base.DEC)
@@ -104,6 +104,7 @@ local tai_list_type_names = {
     [0]="list of TACs belonging to one PLMN, with non-consecutive TAC values",
     [1]="list of TACs belonging to one PLMN, with consecutive TAC values",
     [2]="list of TAIs belonging to different PLMNs",
+    [3]="list of TAIs belonging to one PLMN, with any TAC value",
 }
 
 -- RSD component type names (3GPP TS 24.526 Table 5.2)
@@ -281,37 +282,48 @@ local function parse_location_criteria(buf, offset, length, tree)
                     bit.rshift(bit.band(num_raw,0x04),2), bit.rshift(bit.band(num_raw,0x02),1),
                     bit.band(num_raw,0x01), num_elements, num_elements > 1 and "s" or ""))
                 offset = offset + 1
-                if offset + 3 > buf:len() then break end
-                local mcc, mnc, new_off = decode_plmn(buf, offset)
-                pt:add(f_loc_mcc, buf(offset, 3), mcc):set_text("Mobile Country Code (MCC): " .. mcc)
-                pt:add(f_loc_mnc, buf(offset, 3), mnc):set_text("Mobile Network Code (MNC): " .. mnc)
-                offset = new_off
                 if list_type == 0 then
+                    -- Type 0: same PLMN, list of non-consecutive TACs
+                    if offset + 3 > buf:len() then break end
+                    local mcc, mnc, new_off = decode_plmn(buf, offset)
+                    pt:add(f_loc_mcc, buf(offset, 3), mcc):set_text("Mobile Country Code (MCC): " .. mcc)
+                    pt:add(f_loc_mnc, buf(offset, 3), mnc):set_text("Mobile Network Code (MNC): " .. mnc)
+                    offset = new_off
                     for t = 1, num_elements do
                         if offset + 3 > buf:len() then break end
-                        pt:add(f_loc_tac, buf(offset, 3)):set_text("Tracking area code(TAC): " .. bytes_to_hex(buf, offset, 3))
+                        pt:add(f_loc_tac, buf(offset, 3)):set_text(string.format("TAC: %d", buf(offset, 3):uint()))
                         offset = offset + 3
                     end
                 elseif list_type == 1 then
+                    -- Type 1: same PLMN, consecutive TACs (first TAC only)
+                    if offset + 3 > buf:len() then break end
+                    local mcc, mnc, new_off = decode_plmn(buf, offset)
+                    pt:add(f_loc_mcc, buf(offset, 3), mcc):set_text("Mobile Country Code (MCC): " .. mcc)
+                    pt:add(f_loc_mnc, buf(offset, 3), mnc):set_text("Mobile Network Code (MNC): " .. mnc)
+                    offset = new_off
                     if offset + 3 <= buf:len() then
-                        pt:add(f_loc_tac, buf(offset, 3)):set_text("Tracking area code(TAC): " .. bytes_to_hex(buf, offset, 3))
+                        pt:add(f_loc_tac, buf(offset, 3)):set_text(string.format("TAC: %d", buf(offset, 3):uint()))
                         offset = offset + 3
                     end
                 elseif list_type == 2 then
-                    if offset + 3 <= buf:len() then
-                        pt:add(f_loc_tac, buf(offset, 3)):set_text("Tracking area code(TAC): " .. bytes_to_hex(buf, offset, 3))
-                        offset = offset + 3
-                    end
-                    for t = 2, num_elements do
+                    -- Type 2: different PLMNs, each element has its own PLMN + TAC
+                    for t = 1, num_elements do
                         if offset + 6 > buf:len() then break end
-                        local m2, n2, pe = decode_plmn(buf, offset)
-                        pt:add(f_loc_mcc, buf(offset, 3), m2):set_text("Mobile Country Code (MCC): " .. m2)
-                        pt:add(f_loc_mnc, buf(offset, 3), n2):set_text("Mobile Network Code (MNC): " .. n2)
-                        offset = pe
+                        local mcc, mnc, new_off = decode_plmn(buf, offset)
+                        pt:add(f_loc_mcc, buf(offset, 3), mcc):set_text("Mobile Country Code (MCC): " .. mcc)
+                        pt:add(f_loc_mnc, buf(offset, 3), mnc):set_text("Mobile Network Code (MNC): " .. mnc)
+                        offset = new_off
                         if offset + 3 > buf:len() then break end
-                        pt:add(f_loc_tac, buf(offset, 3)):set_text("Tracking area code(TAC): " .. bytes_to_hex(buf, offset, 3))
+                        pt:add(f_loc_tac, buf(offset, 3)):set_text(string.format("TAC: %d", buf(offset, 3):uint()))
                         offset = offset + 3
                     end
+                elseif list_type == 3 then
+                    -- Type 3: same PLMN, no TAC (all TAIs of the PLMN)
+                    if offset + 3 > buf:len() then break end
+                    local mcc, mnc, new_off = decode_plmn(buf, offset)
+                    pt:add(f_loc_mcc, buf(offset, 3), mcc):set_text("Mobile Country Code (MCC): " .. mcc)
+                    pt:add(f_loc_mnc, buf(offset, 3), mnc):set_text("Mobile Network Code (MNC): " .. mnc)
+                    offset = new_off
                 end
             end
         else
@@ -337,9 +349,9 @@ local function parse_location_criteria(buf, offset, length, tree)
                 offset = pe
                 local id_len = cell_size - 3
                 local id_hex = bytes_to_hex(buf, offset, id_len)
-                if area_type == 0x02 then ct:add(f_loc_nci, buf(offset, id_len)):set_text("NCI: " .. id_hex)
-                elseif area_type == 0x01 then ct:add(f_loc_eci, buf(offset, id_len)):set_text("ECI: " .. id_hex)
-                else ct:add(f_loc_gnb, buf(offset, id_len)):set_text("gNB ID: " .. id_hex) end
+                if area_type == 0x02 then ct:add(f_loc_nci, buf(offset, id_len)):set_text("NR Cell ID: 0x" .. id_hex)
+                elseif area_type == 0x01 then ct:add(f_loc_eci, buf(offset, id_len)):set_text("E-UTRA Cell ID: 0x" .. id_hex)
+                else ct:add(f_loc_gnb, buf(offset, id_len)):set_text("gNB ID: 0x" .. id_hex) end
                 offset = offset + id_len
             end
         end
