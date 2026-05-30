@@ -352,9 +352,9 @@ local function parse_location_criteria(buf, offset, length, tree)
                 if offset + cell_size > buf:len() then break end
                 local cs = offset
                 local cl
-                if area_type == 0x02 then cl = string.format("NR cell identity %d", c)
-                elseif area_type == 0x01 then cl = string.format("E-UTRA cell identity %d", c)
-                else cl = string.format("Global RAN node identity %d", c) end
+                if area_type == 0x02 then cl = string.format("NR cell id %d", c)
+                elseif area_type == 0x01 then cl = string.format("E-UTRA cell id %d", c)
+                else cl = string.format("Global gNB id %d", c) end
                 local ct = tree:add(ursp_post, buf(cs, cell_size), cl)
                 local mcc, mnc, pe = decode_plmn(buf, offset)
                 ct:add(f_loc_mcc, buf(offset, 3), mcc):set_text("Mobile Country Code (MCC): " .. mcc)

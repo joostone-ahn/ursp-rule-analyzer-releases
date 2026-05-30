@@ -117,19 +117,19 @@ Location criteria
     Length of location criteria: 44
     Type of location area: NR cell identities list (2)
     Number of NR cell identities: 1
-    NR cell identity 1
+    NR cell id 1
         Mobile Country Code (MCC): 450
         Mobile Network Code (MNC): 06
         NR Cell ID: 0x0000001111
     Type of location area: E-UTRA cell identities list (1)
     Number of E-UTRA cell identities: 1
-    E-UTRA cell identity 1
+    E-UTRA cell id 1
         Mobile Country Code (MCC): 450
         Mobile Network Code (MNC): 06
         E-UTRA Cell ID: 0x12345678
     Type of location area: Global RAN node identities list (3)
     Number of Global gNB identities: 1
-    Global RAN node identity 1
+    Global gNB id 1
         Mobile Country Code (MCC): 450
         Mobile Network Code (MNC): 06
         gNB ID: 0xaabbccdd
@@ -488,7 +488,7 @@ Route selection descriptor contents
         Length of location criteria: 19
         Type of location area: NR cell identities list (2)
         Number of NR cell identities: 1
-        NR cell identity 1
+        NR cell id 1
             Mobile Country Code (MCC): 450
             Mobile Network Code (MNC): 06
             NR Cell ID: 0x1111111111
