@@ -8,7 +8,7 @@
 --   5. Connection capabilities (TD 0x90) — Rel-18 name annotation (0xA1~0xAB)
 --   6. OS Id + OS App Id (TD 0x08) — human-readable interpretation
 --   7. OS App Id (TD 0xA0) — hex-to-ASCII decoding
---   8. Destination FQDN (TD 0x91) — off-by-one correction
+--   8. Destination FQDN (TD 0x91) — Wireshark native parsing (RFC 1035 label format)
 --
 -- Full parsing covers all RSD types (13) and TD types (24) defined in
 -- 3GPP TS 24.526, matching Wireshark's native output style.
@@ -23,7 +23,7 @@
 --   Linux:   ~/.local/lib/wireshark/plugins/
 --
 -- Reference: 3GPP TS 24.526, TS 24.501 Section 9.11.3.9
--- Version: 1.1.2
+-- Version: 1.1.3
 -- Author: JUSEOK AHN <ajs3013@lguplus.co.kr>
 -- =============================================================================
 
@@ -56,7 +56,6 @@ local f_conn_cap_name = ProtoField.string("ursp_ext_info.conn_cap.name", "Connec
 local f_os_name       = ProtoField.string("ursp_ext_info.os_id.os_name", "OS")
 local f_app_decoded   = ProtoField.string("ursp_ext_info.os_id.app_decoded", "OS App Id (decoded)")
 local f_app_ascii     = ProtoField.string("ursp_ext_info.os_app_id.ascii", "OS App Id (ASCII)")
-local f_fqdn_correct  = ProtoField.string("ursp_ext_info.dest_fqdn.corrected", "Destination FQDN (corrected)")
 
 -- Full parsing fields
 local f_rsd_type      = ProtoField.string("ursp_ext_info.rsd.comp_type", "RSD component type")
@@ -69,7 +68,7 @@ ursp_post.fields = {
     f_loc_nci, f_loc_eci, f_loc_gnb, f_loc_tai_len, f_loc_tai_type, f_loc_tac,
     f_tw_start_sec, f_tw_start_frac, f_tw_stop_sec, f_tw_stop_frac,
     f_tw_start_str, f_tw_stop_str, f_conn_cap_name,
-    f_os_name, f_app_decoded, f_app_ascii, f_fqdn_correct,
+    f_os_name, f_app_decoded, f_app_ascii,
     f_rsd_type, f_rsd_value, f_td_type, f_td_value
 }
 
@@ -839,17 +838,28 @@ local function parse_td_contents_full(buf, offset, length, tree)
                 offset = offset + 1
             end
 
-        elseif type_id == 0x91 then  -- Destination FQDN: len(1) + ascii
+        elseif type_id == 0x91 then  -- Destination FQDN: len(1) + RFC 1035 labels
             if offset >= buf:len() then break end
             local flen = buf(offset, 1):uint()
             tree:add(f_td_value, buf(offset, 1), "")
                 :set_text(string.format("Destination FQDN length: %d", flen))
             offset = offset + 1
             if offset + flen > buf:len() then break end
-            local fqdn = buf(offset, flen):string()
-            tree:add(f_td_value, buf(offset, flen), "")
+            -- Decode RFC 1035 label format: [label_len][label_chars] × N
+            local fqdn_labels = {}
+            local fqdn_end = offset + flen
+            while offset < fqdn_end do
+                local label_len = buf(offset, 1):uint()
+                if label_len == 0 then offset = offset + 1; break end
+                offset = offset + 1
+                if offset + label_len > fqdn_end then break end
+                table.insert(fqdn_labels, buf(offset, label_len):string())
+                offset = offset + label_len
+            end
+            local fqdn = table.concat(fqdn_labels, ".")
+            tree:add(f_td_value, buf(fqdn_end - flen, flen), "")
                 :set_text(string.format("Destination FQDN: %s", fqdn))
-            offset = offset + flen
+            offset = fqdn_end
 
         elseif type_id == 0x92 then  -- Regular expression: len(1) + ascii
             if offset >= buf:len() then break end
@@ -968,7 +978,6 @@ local f_rsd_comp_type = Field.new("nas-5gs.ursp.r_sel_desc_comp_type")
 local f_conn_cap_val  = Field.new("nas-5gs.ursp.traff_desc.conn_cap")
 local f_os_id_val     = Field.new("nas-5gs.os_id")
 local f_os_app_id_val = Field.new("nas-5gs.os_app_id")
-local f_fqdn_val      = Field.new("nas-5gs.ursp.traff_desc.dest_fqdn")
 local f_rule_len      = Field.new("nas-5gs.ursp.rule_len")
 local f_rsd_len       = Field.new("nas-5gs.ursp.r_sel_desc_len")
 local f_rsd_cont_len  = Field.new("nas-5gs.ursp.r_sel_des_cont_len")
@@ -1216,27 +1225,9 @@ function ursp_post.dissector(tvb, pinfo, tree)
     end
 
     -- =========================================================================
-    -- Collect: Destination FQDN correction
-    -- =========================================================================
-    local fqdns = { f_fqdn_val() }
-    if #fqdns > 0 then
-        for _, fqdn_fi in ipairs(fqdns) do
-            local fqdn_hex = bytes_to_hex(tvb, fqdn_fi.offset, fqdn_fi.len)
-            local fqdn_ascii = hex_to_ascii(fqdn_hex)
-            if fqdn_ascii and fqdn_fi.display ~= fqdn_ascii then
-                local rn = find_rule_position(tvb, fqdn_fi.offset, rule_fields, rsd_fields)
-                local label = string.format("URSP rule %d → Traffic descriptor", rn)
-                table.insert(items, {label=label, offset=fqdn_fi.offset, len=fqdn_fi.len,
-                    type_name="Destination FQDN (corrected)",
-                    build=function(subtree)
-                        subtree:add(f_fqdn_correct, tvb(fqdn_fi.offset, fqdn_fi.len), fqdn_ascii)
-                            :set_text("Destination FQDN: " .. fqdn_ascii)
-                    end})
-                has_content = true
-            end
-        end
-    end
-
+    -- (Removed: Destination FQDN correction — no longer needed since FQDN
+    --  is now correctly encoded in RFC 1035 label format, matching Wireshark's
+    --  ENC_APN_STR decoding)
     -- =========================================================================
     -- Build the single protocol tree with all items
     -- =========================================================================

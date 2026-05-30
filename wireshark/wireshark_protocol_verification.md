@@ -6,8 +6,8 @@
 |--------|:----------------:|:---------------:|
 | RSD types parsed | 8 / 13 (62%) | **13 / 13 (100%)** |
 | TD types parsed | 17 / 24 (71%) | **24 / 24 (100%)** |
-| Format consistency | — | 28/29 consistent |
-| Known Wireshark bug | 1 (FQDN) | Corrected by Lua |
+| Format consistency | — | 29/29 consistent |
+| Known Wireshark bug | 0 | — |
 
 ---
 
@@ -25,7 +25,6 @@ the built-in NAS-5GS dissector for URSP protocol parsing.
 | Unregistered type 0x84 shown as "Unknown" | Display correct name from TS 24.526 |
 | OS Id/App Id shown as raw hex | Decode OS name + app category |
 | Connection capabilities Rel-18 shown as "Unknown" | Display official Rel-18 names |
-| Destination FQDN first character dropped | Display correct ASCII value |
 
 ### Trigger conditions
 
@@ -126,7 +125,7 @@ Location criteria
     E-UTRA cell id 1
         Mobile Country Code (MCC): 450
         Mobile Network Code (MNC): 06
-        E-UTRA Cell ID: 0x12345678
+        E-UTRA Cell ID: 0x02345678
     Type of location area: Global RAN node identities list (3)
     Number of Global gNB identities: 1
     Global gNB id 1
@@ -364,37 +363,24 @@ Connection capability: Internet (0x08)
 Connection capability: IoT delay-tolerant (0xa1)
 ```
 
-#### 3.2.17 ❌→⚠️ 0x91 Destination FQDN — [TD_0x91_dest_FQDN.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0x91_dest_FQDN.pcap)
+#### 3.2.17 ✅ 0x91 Destination FQDN — [TD_0x91_dest_FQDN.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0x91_dest_FQDN.pcap)
 
-Wireshark native (bug — first character dropped):
 ```
 Traffic descriptor: Destination FQDN (145)
-Destination FQDN length: 11
-Destination FQDN: xample.com
-```
-
-Lua plugin (correct value):
-```
-Traffic descriptor: Destination FQDN (145)
-Destination FQDN length: 11
+Destination FQDN length: 12
 Destination FQDN: example.com
 ```
 
-**Bug analysis:**
-
-Encoded hex:
+FQDN is encoded in RFC 1035 label format per TS 24.526 → TS 23.003 clause 28.3.2.1 → 19.4.2.1:
 ```
-91 0B 65 78 61 6D 70 6C 65 2E 63 6F 6D
-│  │  └─────────────────────────────────── "example.com" (plain ASCII)
-│  └─ Length: 11 bytes
+91 0C 07 65 78 61 6D 70 6C 65 03 63 6F 6D
+│  │  │  "example"            │  "com"
+│  │  └─ label_len=7          └─ label_len=3
+│  └─ FQDN length: 12 bytes
 └─ Type: Destination FQDN (0x91)
 ```
 
-- 3GPP TS 24.526 Section 5.2: FQDN value is a plain character string
-- Our encoding: `0x65 0x78 0x61...` = ASCII `e x a m p l e . c o m` ✅
-- Wireshark uses `ENC_APN_STR` (RFC 1035 DNS label encoding)
-- First byte `0x65` ('e' = 101) misinterpreted as label length → skipped
-- Result: `xample.com` (first character dropped)
+Wireshark `ENC_APN_STR` decodes this correctly.
 
 #### 3.2.18 ❌→✅ 0x92 Regular expression — [TD_0x92_regex.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_0x92_regex.pcap)
 

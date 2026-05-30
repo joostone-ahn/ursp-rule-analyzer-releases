@@ -47,8 +47,8 @@ Download the latest exe from [Releases](https://github.com/joostone-ahn/ursp-rul
 ## 📖 How to Use
 
 See the User Guide for detailed instructions:
-- [English](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/manual/user_guide_en_v1.1.2.md)
-- [한국어](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/manual/user_guide_kr_v1.1.2.md)
+- [English](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/manual/user_guide_en_v1.1.3.md)
+- [한국어](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/manual/user_guide_kr_v1.1.3.md)
 
 ---
 
@@ -91,6 +91,7 @@ For supported types, PCAP view behavior, and detailed explanation, see "Wireshar
 | v1.1.0 | 2026-05-28 | Wireshark Lua plugin (Location criteria, Time window, Conn Cap Rel-18, OS Id/App Id, FQDN), Result tab UI overhaul, Time window UTC+KST, UPSC Edit fix |
 | v1.1.1 | 2026-05-29 | Lua full RSD/TD parsing (all 37 types), PCAP view unified output, directory restructure, verification report |
 | v1.1.2 | 2026-05-30 | Lua plugin: TAI list Type 2/3 fix, Location criteria field labels aligned with 3GPP TS 24.526 |
+| v1.1.3 | 2026-05-30 | Destination FQDN: RFC 1035 label format encoding (TS 23.003 clause 19.4.2.1) |
 
 ---
 
