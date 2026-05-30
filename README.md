@@ -90,7 +90,7 @@ For supported types, PCAP view behavior, and detailed explanation, see "Wireshar
 | v1.0.3 | 2026-05-22 | Added Lite edition (device-compatible types only), TD auto-type selection improvement |
 | v1.1.0 | 2026-05-28 | Wireshark Lua plugin (Location criteria, Time window, Conn Cap Rel-18, OS Id/App Id, FQDN), Result tab UI overhaul, Time window UTC+KST, UPSC Edit fix |
 | v1.1.1 | 2026-05-29 | Lua full RSD/TD parsing (all 37 types), PCAP view unified output, directory restructure, verification report |
-| v1.1.2 | 2026-05-30 | Lua plugin: TAI list Type 2/3 fix, TAC decimal display, Cell ID label alignment (NR Cell ID/E-UTRA Cell ID/gNB ID with 0x prefix) |
+| v1.1.2 | 2026-05-30 | Lua plugin: TAI list Type 2/3 fix, Location criteria field labels aligned with 3GPP TS 24.526 |
 
 ---
 

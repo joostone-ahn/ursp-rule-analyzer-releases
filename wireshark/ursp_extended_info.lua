@@ -33,9 +33,11 @@ local ursp_post = Proto("ursp_ext_info", "[Extended Info: decoded by ursp_extend
 -- Protocol Fields
 -- ============================================================================
 
-local f_loc_len       = ProtoField.uint8("ursp_ext_info.loc.length", "Length of location criteria contents", base.DEC)
+local f_loc_len       = ProtoField.uint8("ursp_ext_info.loc.length", "Length of location criteria", base.DEC)
 local f_loc_area_type = ProtoField.uint8("ursp_ext_info.loc.area_type", "Type of location area", base.DEC)
-local f_loc_num_cells = ProtoField.uint8("ursp_ext_info.loc.num_cells", "Number of cell identities", base.DEC)
+local f_loc_num_eutra = ProtoField.uint8("ursp_ext_info.loc.num_eutra", "Number of E-UTRA cell identities", base.DEC)
+local f_loc_num_nr    = ProtoField.uint8("ursp_ext_info.loc.num_nr", "Number of NR cell identities", base.DEC)
+local f_loc_num_gnb   = ProtoField.uint8("ursp_ext_info.loc.num_gnb", "Number of Global gNB identities", base.DEC)
 local f_loc_mcc       = ProtoField.string("ursp_ext_info.loc.mcc", "Mobile Country Code (MCC)")
 local f_loc_mnc       = ProtoField.string("ursp_ext_info.loc.mnc", "Mobile Network Code (MNC)")
 local f_loc_nci       = ProtoField.bytes("ursp_ext_info.loc.nci", "NR Cell Identity (NCI)")
@@ -63,7 +65,7 @@ local f_td_type       = ProtoField.string("ursp_ext_info.td.comp_type", "TD comp
 local f_td_value      = ProtoField.string("ursp_ext_info.td.value", "TD component value")
 
 ursp_post.fields = {
-    f_loc_len, f_loc_area_type, f_loc_num_cells, f_loc_mcc, f_loc_mnc,
+    f_loc_len, f_loc_area_type, f_loc_num_eutra, f_loc_num_nr, f_loc_num_gnb, f_loc_mcc, f_loc_mnc,
     f_loc_nci, f_loc_eci, f_loc_gnb, f_loc_tai_len, f_loc_tai_type, f_loc_tac,
     f_tw_start_sec, f_tw_start_frac, f_tw_stop_sec, f_tw_stop_frac,
     f_tw_start_str, f_tw_stop_str, f_conn_cap_name,
@@ -96,8 +98,8 @@ local conn_cap_names = {
     [0xAB]="Low latency loss tolerant communications",
 }
 local loc_area_type_names = {
-    [0x01]="E-UTRA cell identities", [0x02]="NR cell identities",
-    [0x03]="Global RAN node identities", [0x04]="Tracking area identities",
+    [0x01]="E-UTRA cell identities list", [0x02]="NR cell identities list",
+    [0x03]="Global RAN node identities list", [0x04]="TAI list",
 }
 local loc_area_cell_sizes = { [0x01]=7, [0x02]=8, [0x03]=7 }
 local tai_list_type_names = {
@@ -333,7 +335,18 @@ local function parse_location_criteria(buf, offset, length, tree)
             offset = offset + 1
             if offset >= buf:len() then break end
             local num_cells = buf(offset, 1):uint()
-            tree:add(f_loc_num_cells, buf(offset, 1)):set_text("Number of cell identities: " .. num_cells)
+            local f_num, num_label
+            if area_type == 0x02 then
+                f_num = f_loc_num_nr
+                num_label = "Number of NR cell identities: "
+            elseif area_type == 0x01 then
+                f_num = f_loc_num_eutra
+                num_label = "Number of E-UTRA cell identities: "
+            else
+                f_num = f_loc_num_gnb
+                num_label = "Number of Global gNB identities: "
+            end
+            tree:add(f_num, buf(offset, 1)):set_text(num_label .. num_cells)
             offset = offset + 1
             for c = 1, num_cells do
                 if offset + cell_size > buf:len() then break end
@@ -496,7 +509,7 @@ local function parse_rsd_contents_full(buf, offset, length, tree)
             if offset + loc_len > buf:len() then break end
             local loc_tree = tree:add(ursp_post, buf(offset - 2, loc_len + 2), "Location criteria")
             loc_tree:add(f_loc_len, buf(offset - 1, 1))
-                :set_text(string.format("Length of location criteria contents: %d", loc_len))
+                :set_text(string.format("Length of location criteria: %d", loc_len))
             parse_location_criteria(buf, offset, loc_len, loc_tree)
             offset = offset + loc_len
 
@@ -1036,7 +1049,7 @@ function ursp_post.dissector(tvb, pinfo, tree)
                                 type_name="Location criteria",
                                 build=function(subtree)
                                     subtree:add(f_loc_len, tvb(data_offset, 1))
-                                        :set_text(string.format("Length of location criteria contents: %d", loc_len))
+                                        :set_text(string.format("Length of location criteria: %d", loc_len))
                                     parse_location_criteria(tvb, data_offset + 1, loc_len, subtree)
                                 end})
                             has_content = true

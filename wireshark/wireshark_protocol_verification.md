@@ -114,26 +114,26 @@ Lua plugin (parses successfully — RSD_0x40_5_location_combined.pcap):
 ```
 Route selection descriptor component type identifier: Location criteria (64)
 Location criteria
-    Length of location criteria contents: 44
-    Type of location area: NR cell identities (2)
-    Number of cell identities: 1
+    Length of location criteria: 44
+    Type of location area: NR cell identities list (2)
+    Number of NR cell identities: 1
     NR cell identity 1
         Mobile Country Code (MCC): 450
         Mobile Network Code (MNC): 06
         NR Cell ID: 0x0000001111
-    Type of location area: E-UTRA cell identities (1)
-    Number of cell identities: 1
+    Type of location area: E-UTRA cell identities list (1)
+    Number of E-UTRA cell identities: 1
     E-UTRA cell identity 1
         Mobile Country Code (MCC): 450
         Mobile Network Code (MNC): 06
         E-UTRA Cell ID: 0x12345678
-    Type of location area: Global RAN node identities (3)
-    Number of cell identities: 1
+    Type of location area: Global RAN node identities list (3)
+    Number of Global gNB identities: 1
     Global RAN node identity 1
         Mobile Country Code (MCC): 450
         Mobile Network Code (MNC): 06
         gNB ID: 0xaabbccdd
-    Type of location area: Tracking area identities (4)
+    Type of location area: TAI list (4)
     Length: 14
     Partial tracking area identity list 1
         0... .... = Spare: 0
@@ -485,13 +485,13 @@ Lua plugin:
 Route selection descriptor contents
     Route selection descriptor component type identifier: Location criteria (64)
     Location criteria
-        Length of location criteria contents: 19
-        Type of location area: NR cell identities (2)
-        Number of cell identities: 1
+        Length of location criteria: 19
+        Type of location area: NR cell identities list (2)
+        Number of NR cell identities: 1
         NR cell identity 1
             Mobile Country Code (MCC): 450
             Mobile Network Code (MNC): 06
-            NCI: 1111111111
+            NR Cell ID: 0x1111111111
     Route selection descriptor component type identifier: S-NSSAI (2)
     Length of Mapped S-NSSAI content: 4
     Slice/service type (SST): eMBB (1)
