@@ -1,7 +1,7 @@
 -- =============================================================================
 -- URSP NAS Post-Dissector for Wireshark
 -- Supplements Wireshark's built-in NAS-5GS dissector with:
---   1. Full RSD contents re-parsing when Wireshark fails (0x40/0x80 trigger)
+--   1. Full RSD contents re-parsing when Wireshark fails (0x40/0x80/0x84 trigger)
 --   2. Full TD contents re-parsing when Wireshark fails (0x92 trigger)
 --   3. Location criteria (RSD 0x40) — full parsing (TAI, NR/E-UTRA/gNB)
 --   4. Time window (RSD 0x80) — full parsing
@@ -528,8 +528,9 @@ local function parse_rsd_contents_full(buf, offset, length, tree)
         elseif type_id == 0x83 then  -- RSN
             if offset >= buf:len() then break end
             local v = buf(offset, 1):uint()
+            local rsn_name = (v == 0) and "v1" or (v == 1) and "v2" or string.format("%d", v)
             tree:add(f_rsd_value, buf(offset, 1), "")
-                :set_text(string.format("RSN: %d", v))
+                :set_text(string.format("RSN: %s (%d)", rsn_name, v))
             offset = offset + 1
 
         else
@@ -996,17 +997,17 @@ function ursp_post.dissector(tvb, pinfo, tree)
     local items = {}  -- {label, build_fn}
 
     -- =========================================================================
-    -- Collect: RSD contents full parsing (triggered by 0x40 or 0x80)
-    -- When Location criteria or Time window is present, Wireshark may fail
-    -- to parse subsequent components. We re-parse the entire RSD contents.
+    -- Collect: RSD contents full parsing (triggered by 0x40, 0x80, or 0x84)
+    -- When Location criteria, Time window, or 5G ProSe multi-path is present,
+    -- Wireshark may fail to parse subsequent components. We re-parse the entire RSD contents.
     -- =========================================================================
     local comp_types = { f_rsd_comp_type() }
     local rsd_cont_lens = { f_rsd_cont_len() }
     if #comp_types > 0 then
-        -- Check if full RSD parsing is needed (0x40 or 0x80 present)
+        -- Check if full RSD parsing is needed (0x40, 0x80, or 0x84 present)
         local needs_full_rsd = false
         for _, comp_fi in ipairs(comp_types) do
-            if comp_fi.value == 64 or comp_fi.value == 128 or comp_fi.value == 130 or comp_fi.value == 131 then
+            if comp_fi.value == 64 or comp_fi.value == 128 or comp_fi.value == 130 or comp_fi.value == 131 or comp_fi.value == 132 then
                 needs_full_rsd = true
                 break
             end
@@ -1022,7 +1023,7 @@ function ursp_post.dissector(tvb, pinfo, tree)
                     -- Check if this RSD contains 0x40 or 0x80
                     local has_problematic = false
                     for _, comp_fi in ipairs(comp_types) do
-                        if (comp_fi.value == 64 or comp_fi.value == 128 or comp_fi.value == 130 or comp_fi.value == 131) and
+                        if (comp_fi.value == 64 or comp_fi.value == 128 or comp_fi.value == 130 or comp_fi.value == 131 or comp_fi.value == 132) and
                            comp_fi.offset >= cont_offset and comp_fi.offset < cont_offset + cont_len then
                             has_problematic = true
                             break

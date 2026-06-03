@@ -8,6 +8,7 @@
 | TD types parsed | 17 / 24 (71%) | **24 / 24 (100%)** |
 | Format consistency | — | 29/29 consistent |
 | Known Wireshark bug | 0 | — |
+| Combo parsing failure | RSD 0x84 breaks subsequent parsing (no case handler) | Handled by Lua |
 
 ---
 
@@ -454,10 +455,32 @@ Connectivity group ID: group-01
 
 ### 3.3 Multi-Component Combo Examples
 
-When a trigger type (0x40/0x80/0x92) appears in a block, Wireshark abandons parsing
-of ALL subsequent components. The Lua plugin re-parses the entire block.
+When a trigger type (0x40/0x80/0x92) or unhandled zero-length type (0x84) appears in a block,
+Wireshark abandons parsing of ALL subsequent components. The Lua plugin re-parses the entire block.
 
-#### Location criteria + S-NSSAI + DNN
+#### 5G ProSe multi-path (0x84) + S-NSSAI + DNN — [RSD_0x84_combo_prose_multipath_snssai_dnn.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/RSD_0x84_combo_prose_multipath_snssai_dnn.pcap)
+
+Wireshark native (tshark 4.6.6 — 0x84 has no case handler, triggers "IE not dissected yet"):
+```
+Route selection descriptor contents
+    Route selection descriptor component type identifier: Unknown (132)
+    IE not dissected yet
+```
+
+Lua plugin (parses correctly — re-parses entire RSD contents block):
+```
+Route selection descriptor contents
+    Route selection descriptor component type identifier: 5G ProSe multi-path preference (132)
+    Route selection descriptor component type identifier: S-NSSAI (2)
+    Length of Mapped S-NSSAI content: 4
+    Slice/service type (SST): eMBB (1)
+    Slice differentiator (SD): 256
+    Route selection descriptor component type identifier: DNN (4)
+    Length: 9
+    DNN: internet
+```
+
+#### Location criteria + S-NSSAI + DNN — [RSD_combo_location_snssai_dnn.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/RSD_combo_location_snssai_dnn.pcap)
 
 Wireshark native:
 ```
@@ -487,7 +510,7 @@ Route selection descriptor contents
     DNN: internet
 ```
 
-#### Regular expression + DNN + Single remote port
+#### Regular expression + DNN + Single remote port — [TD_combo_regex_dnn_port.pcap](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/raw/main/wireshark/pcap/TD_combo_regex_dnn_port.pcap)
 
 Wireshark native:
 ```

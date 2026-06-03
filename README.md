@@ -2,7 +2,7 @@
 
 A powerful web-based tool for analyzing URSP (UE Route Selection Policy) rules used in 5G network slicing. Built to assist engineers interpreting protocol logs or provisioning rules on real devices.
 
-[![License](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
+![License](https://img.shields.io/badge/License-All%20Rights%20Reserved-red)
 
 ---
 
@@ -106,12 +106,8 @@ For supported types, PCAP view behavior, and detailed explanation, see "Wireshar
 
 ## 📄 License
 
-**© 2026 JUSEOK AHN <ajs3013@lguplus.co.kr> All rights reserved.**
+© 2026 JUSEOK AHN <ajs3013@lguplus.co.kr>. All rights reserved.
 
-This software is proprietary and confidential.
-
-### Applicable For
-- QA teams performing 5G network slicing testing
-- Engineers debugging UE-network communication
-- Researchers working with modern 5G SA infrastructure
-- Network operators validating URSP policies
+This software is provided free of charge for personal and internal use.
+You may not modify, distribute, sublicense, or sell copies of this software
+without explicit written permission from the author.
