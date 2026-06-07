@@ -1,7 +1,7 @@
-# URSP Rule Analyzer User Guide v1.1.3
+# URSP Rule Analyzer User Guide v1.2.0
 
-**Version:** v1.1.3  
-**Last Updated:** 2026-05-28
+**Version:** v1.2.0  
+**Last Updated:** 2026-06-08
 
 ---
 
@@ -22,7 +22,7 @@
 
 ## 1. How to Run
 
-1. Double-click the `URSP-Rule-Analyzer-v1.1.3.exe` file.
+1. Double-click the `URSP-Rule-Analyzer-v1.2.0.exe` file.
 2. A console window will display the message `Access the application at: http://127.0.0.1:8081`.
 3. Open the address in your web browser.
 4. To quit: close the console window or press `Ctrl+C`.
@@ -31,7 +31,7 @@
 
 ### Lite Edition
 
-`URSP-Rule-Analyzer-Lite-v1.1.3.exe` is a lightweight edition that includes only device-supported core features.
+`URSP-Rule-Analyzer-Lite-v1.2.0.exe` is a lightweight edition that includes only device-supported core features.
 
 - **TD types**: Match-all, OS Id + OS App Id, DNN, Connection capabilities
 - **RSD types**: S-NSSAI, DNN, Location criteria, Time window

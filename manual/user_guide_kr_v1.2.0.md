@@ -1,7 +1,7 @@
-# URSP Rule Analyzer 사용자 가이드 v1.1.3
+# URSP Rule Analyzer 사용자 가이드 v1.2.0
 
-**버전:** v1.1.3  
-**최종 수정일:** 2026-05-28
+**버전:** v1.2.0  
+**최종 수정일:** 2026-06-08
 
 ---
 
@@ -22,7 +22,7 @@
 
 ## 1. 실행 방법
 
-1. `URSP-Rule-Analyzer-v1.1.3.exe` 파일을 더블클릭합니다.
+1. `URSP-Rule-Analyzer-v1.2.0.exe` 파일을 더블클릭합니다.
 2. 콘솔 창에 `Access the application at: http://127.0.0.1:8081` 메시지가 표시됩니다.
 3. 웹 브라우저에서 해당 주소에 접속합니다.
 4. 종료: 콘솔 창을 닫거나 `Ctrl+C`
@@ -31,7 +31,7 @@
 
 ### Lite 버전
 
-`URSP-Rule-Analyzer-Lite-v1.1.3.exe`는 실제 단말에서 지원되는 핵심 기능만 포함한 경량 버전입니다.
+`URSP-Rule-Analyzer-Lite-v1.2.0.exe`는 실제 단말에서 지원되는 핵심 기능만 포함한 경량 버전입니다.
 
 - **TD 타입**: Match-all, OS Id + OS App Id, DNN, Connection capabilities
 - **RSD 타입**: S-NSSAI, DNN, Location criteria, Time window

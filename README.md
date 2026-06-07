@@ -47,8 +47,8 @@ Download the latest exe from [Releases](https://github.com/joostone-ahn/ursp-rul
 ## 📖 How to Use
 
 See the User Guide for detailed instructions:
-- [English](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/manual/user_guide_en_v1.1.3.md)
-- [한국어](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/manual/user_guide_kr_v1.1.3.md)
+- [English](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/manual/user_guide_en_v1.2.0.md)
+- [한국어](https://github.com/joostone-ahn/ursp-rule-analyzer-releases/blob/main/manual/user_guide_kr_v1.2.0.md)
 
 ---
 

@@ -23,7 +23,7 @@
 --   Linux:   ~/.local/lib/wireshark/plugins/
 --
 -- Reference: 3GPP TS 24.526, TS 24.501 Section 9.11.3.9
--- Version: 1.1.3
+-- Version: 1.2.0
 -- Author: JUSEOK AHN <ajs3013@lguplus.co.kr>
 -- =============================================================================
 
